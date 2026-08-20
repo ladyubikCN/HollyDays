@@ -8,7 +8,7 @@ def main():
     
     # Usiamo flet.run invece di flet.app e ascoltiamo su host="0.0.0.0"
     flet.run(
-        target=show_full_page, 
+        show_full_page, 
         view=flet.AppView.WEB_BROWSER, 
         host="0.0.0.0", 
         port=port
