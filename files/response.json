@@ -1,0 +1,297 @@
+{
+  "sessionToken": "c7f67776-71d6-47aa-aa0e-6187ae7872b2",
+  "status": "RESULT_STATUS_COMPLETE",
+  "itineraries": [
+    {
+      "id": "17114-2608011445--32090-1-11493-2608012310",
+      "price": {
+        "amount": 807.2,
+        "currency": "EUR",
+        "formatted": "EUR 807.20"
+      },
+      "legs": [
+        {
+          "origin": "TRS",
+          "destination": "FCO",
+          "departure": "2026-08-01T14:45:00",
+          "arrival": "2026-08-01T23:10:00",
+          "durationMinutes": 505,
+          "stopCount": 1,
+          "carriers": [
+            {
+              "name": "Lufthansa",
+              "logoUrl": "https://logos.skyscnr.com/images/airlines/favicon/LH.png"
+            }
+          ]
+        }
+      ],
+      "score": 0,
+      "tags": [
+        
+      ],
+      "bookingUrl": "https://www.skyscanner.net/transport_deeplink/4.0/IT/en-GB/EUR/luft/1/17114.11493.2026-08-01/air/airli/flights?itinerary=flight|-32090|9571|17114|2026-08-01T14:45|11616|2026-08-01T16:15|90|HEULGTX0|H|ECONOMY+LIGHT;flight|-32090|242|11616|2026-08-01T21:20|11493|2026-08-01T23:10|110|HEULGTX0|W|ECONOMY+LIGHT&carriers=-32090&operators=-32681;-32090&passengers=2&channel=website&cabin_class=economy&fps_session_id=c7f67776-71d6-47aa-aa0e-6187ae7872b2&ticket_price=807.20&is_npt=false&is_multipart=false&client_id=skyscanner_website&q_ids=H4sIAAAAAAAA_-PS52LJKU0rEeLjuNXKqMRhaWpqZmZkYSzFy_E0EsI1NTAzVWh4t-UymxGTAhMA2ap8fjEAAAA|-5567723212967906911|2&q_sources=JACQUARD&commercial_filters=false&q_datetime_utc=2026-07-31T15:20:45&pqid=false&fare_type=base_fare"
+    },
+    {
+      "id": "17114-2608010635--30727-0-11493-2608010745",
+      "price": {
+        "amount": 291.92,
+        "currency": "EUR",
+        "formatted": "EUR 291.92"
+      },
+      "legs": [
+        {
+          "origin": "TRS",
+          "destination": "FCO",
+          "departure": "2026-08-01T06:35:00",
+          "arrival": "2026-08-01T07:45:00",
+          "durationMinutes": 70,
+          "stopCount": 0,
+          "carriers": [
+            {
+              "name": "ITA Airways",
+              "logoUrl": "https://logos.skyscnr.com/images/airlines/favicon/AZ.png"
+            }
+          ]
+        }
+      ],
+      "score": 0,
+      "tags": [
+        
+      ],
+      "bookingUrl": "https://www.skyscanner.net/transport_deeplink/4.0/IT/en-GB/EUR/alit/1/17114.11493.2026-08-01/air/airli/flights?itinerary=flight|-30727|1356|17114|2026-08-01T06:35|11493|2026-08-01T07:45|70|VIALGTD9|V|BFEUMNN01&carriers=-30727&operators=-30727&passengers=2&channel=website&cabin_class=economy&fps_session_id=c7f67776-71d6-47aa-aa0e-6187ae7872b2&ticket_price=291.92&is_npt=false&is_multipart=false&client_id=skyscanner_website&q_ids=H4sIAAAAAAAA_-PS52JJzMksEeLjuNXKqMRhaWpqZmZkYSzFy_E0EsI1NTAzVWh4t-UymxGTAhMAqnLJFjEAAAA|3431970701991265414|2&q_sources=JACQUARD&commercial_filters=false&q_datetime_utc=2026-07-31T15:20:45&pqid=false&fare_type=base_fare"
+    },
+    {
+      "id": "17114-2608011115--30727-0-11493-2608011225",
+      "price": {
+        "amount": 471.92,
+        "currency": "EUR",
+        "formatted": "EUR 471.92"
+      },
+      "legs": [
+        {
+          "origin": "TRS",
+          "destination": "FCO",
+          "departure": "2026-08-01T11:15:00",
+          "arrival": "2026-08-01T12:25:00",
+          "durationMinutes": 70,
+          "stopCount": 0,
+          "carriers": [
+            {
+              "name": "ITA Airways",
+              "logoUrl": "https://logos.skyscnr.com/images/airlines/favicon/AZ.png"
+            }
+          ]
+        }
+      ],
+      "score": 0,
+      "tags": [
+        
+      ],
+      "bookingUrl": "https://www.skyscanner.net/transport_deeplink/4.0/IT/en-GB/EUR/alit/1/17114.11493.2026-08-01/air/airli/flights?itinerary=flight|-30727|1358|17114|2026-08-01T11:15|11493|2026-08-01T12:25|70|UIALGTD9|U|BFEUMNN01&carriers=-30727&operators=-30727&passengers=2&channel=website&cabin_class=economy&fps_session_id=c7f67776-71d6-47aa-aa0e-6187ae7872b2&ticket_price=471.92&is_npt=false&is_multipart=false&client_id=skyscanner_website&q_ids=H4sIAAAAAAAA_-PS52JJzMksEeLjuNXKqMRhaWpqZmZkYSzFy_E0EsI1NTAzVWh4t-UymxGTAhMAqnLJFjEAAAA|-5107008878867288115|2&q_sources=JACQUARD&commercial_filters=false&q_datetime_utc=2026-07-31T15:20:45&pqid=false&fare_type=base_fare"
+    },
+    {
+      "id": "17114-2608011130--30652-1-11493-2608012110",
+      "price": {
+        "amount": 423.99,
+        "currency": "EUR",
+        "formatted": "EUR 423.99"
+      },
+      "legs": [
+        {
+          "origin": "TRS",
+          "destination": "FCO",
+          "departure": "2026-08-01T11:30:00",
+          "arrival": "2026-08-01T21:10:00",
+          "durationMinutes": 580,
+          "stopCount": 1,
+          "carriers": [
+            {
+              "name": "Aeroitalia",
+              "logoUrl": "https://logos.skyscnr.com/images/airlines/favicon/B(.png"
+            }
+          ]
+        }
+      ],
+      "score": 0,
+      "tags": [
+        
+      ],
+      "bookingUrl": "https://www.skyscanner.net/transport_deeplink/4.0/IT/en-GB/EUR/dhop/1/17114.11493.2026-08-01/air/trava/flights?itinerary=flight|-30652|2914|17114|2026-08-01T11:30|14988|2026-08-01T13:00|90|-|-|-;flight|-30652|7816|14988|2026-08-01T20:10|11493|2026-08-01T21:10|60|-|-|-&carriers=-30652&operators=-30652;-30652&passengers=2&channel=website&cabin_class=economy&fps_session_id=c7f67776-71d6-47aa-aa0e-6187ae7872b2&ticket_price=423.99&is_npt=false&is_multipart=false&client_id=skyscanner_website&q_ids=H4sIAAAAAAAA_-PS52JJycgvEOLjuNXKqMRhaWpqZmZkYSzFy_E0EsI1NTAzVWh4t-UymxGTAhMAvTlYXjEAAAA|8665959492450855371|2&q_sources=JACQUARD&commercial_filters=false&q_datetime_utc=2026-07-31T15:20:45&transfer_protection=protected&pqid=false&fare_type=base_fare"
+    },
+    {
+      "id": "17114-2608010615--32090-1-11493-2608011340",
+      "price": {
+        "amount": 801.2,
+        "currency": "EUR",
+        "formatted": "EUR 801.20"
+      },
+      "legs": [
+        {
+          "origin": "TRS",
+          "destination": "FCO",
+          "departure": "2026-08-01T06:15:00",
+          "arrival": "2026-08-01T13:40:00",
+          "durationMinutes": 445,
+          "stopCount": 1,
+          "carriers": [
+            {
+              "name": "Lufthansa",
+              "logoUrl": "https://logos.skyscnr.com/images/airlines/favicon/LH.png"
+            }
+          ]
+        }
+      ],
+      "score": 0,
+      "tags": [
+        
+      ],
+      "bookingUrl": "https://www.skyscanner.net/transport_deeplink/4.0/IT/en-GB/EUR/luft/1/17114.11493.2026-08-01/air/airli/flights?itinerary=flight|-32090|9573|17114|2026-08-01T06:15|11616|2026-08-01T07:45|90|HEULGTX0|H|ECONOMY+LIGHT;flight|-32090|5146|11616|2026-08-01T11:40|11493|2026-08-01T13:40|120|HEULGTX0|W|ECONOMY+LIGHT&carriers=-32090&operators=-32681;-30727&passengers=2&channel=website&cabin_class=economy&fps_session_id=c7f67776-71d6-47aa-aa0e-6187ae7872b2&ticket_price=801.20&is_npt=false&is_multipart=false&client_id=skyscanner_website&q_ids=H4sIAAAAAAAA_-PS52LJKU0rEeLjuNXKqMRhaWpqZmZkYSzFy_E0EsI1NTAzVWh4t-UymxGTAhMA2ap8fjEAAAA|360903173953079644|2&q_sources=JACQUARD&commercial_filters=false&q_datetime_utc=2026-07-31T15:20:45&pqid=false&fare_type=base_fare"
+    },
+    {
+      "id": "17114-2608011130--30652-1-11493-2608011640",
+      "price": {
+        "amount": 438.99,
+        "currency": "EUR",
+        "formatted": "EUR 438.99"
+      },
+      "legs": [
+        {
+          "origin": "TRS",
+          "destination": "FCO",
+          "departure": "2026-08-01T11:30:00",
+          "arrival": "2026-08-01T16:40:00",
+          "durationMinutes": 310,
+          "stopCount": 1,
+          "carriers": [
+            {
+              "name": "Aeroitalia",
+              "logoUrl": "https://logos.skyscnr.com/images/airlines/favicon/B(.png"
+            }
+          ]
+        }
+      ],
+      "score": 0,
+      "tags": [
+        
+      ],
+      "bookingUrl": "https://www.skyscanner.net/transport_deeplink/4.0/IT/en-GB/EUR/dhop/1/17114.11493.2026-08-01/air/trava/flights?itinerary=flight|-30652|2914|17114|2026-08-01T11:30|14988|2026-08-01T13:00|90|-|-|-;flight|-30652|2614|14988|2026-08-01T15:40|11493|2026-08-01T16:40|60|-|-|-&carriers=-30652&operators=-30652;-30652&passengers=2&channel=website&cabin_class=economy&fps_session_id=c7f67776-71d6-47aa-aa0e-6187ae7872b2&ticket_price=438.99&is_npt=false&is_multipart=false&client_id=skyscanner_website&q_ids=H4sIAAAAAAAA_-PS52JJycgvEOLjuNXKqMRhaWpqZmZkYSzFy_E0EsI1NTAzVWh4t-UymxGTAhMAvTlYXjEAAAA|2438106784097467922|2&q_sources=JACQUARD&commercial_filters=false&q_datetime_utc=2026-07-31T15:20:45&transfer_protection=protected&pqid=false&fare_type=base_fare"
+    },
+    {
+      "id": "17114-2608011540--31915-1-11493-2608020110",
+      "price": {
+        "amount": 396.99,
+        "currency": "EUR",
+        "formatted": "EUR 396.99"
+      },
+      "legs": [
+        {
+          "origin": "TRS",
+          "destination": "FCO",
+          "departure": "2026-08-01T15:40:00",
+          "arrival": "2026-08-02T01:10:00",
+          "durationMinutes": 570,
+          "stopCount": 1,
+          "carriers": [
+            {
+              "name": "Ryanair",
+              "logoUrl": "https://logos.skyscnr.com/images/airlines/favicon/FR.png"
+            }
+          ]
+        }
+      ],
+      "score": 0,
+      "tags": [
+        
+      ],
+      "bookingUrl": "https://www.skyscanner.net/transport_deeplink/4.0/IT/en-GB/EUR/dhop/1/17114.11493.2026-08-01/air/trava/flights?itinerary=flight|-31915|3582|17114|2026-08-01T15:40|10129|2026-08-01T16:55|75|-|-|-;flight|-31915|7074|10129|2026-08-02T00:00|11493|2026-08-02T01:10|70|-|-|-&carriers=-31915&operators=-30823;-30823&passengers=2&channel=website&cabin_class=economy&fps_session_id=c7f67776-71d6-47aa-aa0e-6187ae7872b2&ticket_price=396.99&is_npt=false&is_multipart=false&client_id=skyscanner_website&q_ids=H4sIAAAAAAAA_-PS52JJycgvEOLjuNXKqMRhaWpqZmZkYSzFy_E0EsI1NTAzVWh4t-UymxGTAhMAvTlYXjEAAAA|-2181944554606748621|2&q_sources=JACQUARD&commercial_filters=false&q_datetime_utc=2026-07-31T15:20:45&transfer_protection=protected&pqid=false&fare_type=base_fare"
+    },
+    {
+      "id": "17114-2608011315--31915-1-11493-2608011915",
+      "price": {
+        "amount": 826.99,
+        "currency": "EUR",
+        "formatted": "EUR 826.99"
+      },
+      "legs": [
+        {
+          "origin": "TRS",
+          "destination": "FCO",
+          "departure": "2026-08-01T13:15:00",
+          "arrival": "2026-08-01T19:15:00",
+          "durationMinutes": 360,
+          "stopCount": 1,
+          "carriers": [
+            {
+              "name": "Ryanair",
+              "logoUrl": "https://logos.skyscnr.com/images/airlines/favicon/FR.png"
+            }
+          ]
+        }
+      ],
+      "score": 0,
+      "tags": [
+        
+      ],
+      "bookingUrl": "https://www.skyscanner.net/transport_deeplink/4.0/IT/en-GB/EUR/dhop/1/17114.11493.2026-08-01/air/trava/flights?itinerary=flight|-31915|1759|17114|2026-08-01T13:15|15439|2026-08-01T14:50|95|-|-|-;flight|-31915|4905|15439|2026-08-01T18:00|11493|2026-08-01T19:15|75|-|-|-&carriers=-31915&operators=-30823;-30823&passengers=2&channel=website&cabin_class=economy&fps_session_id=c7f67776-71d6-47aa-aa0e-6187ae7872b2&ticket_price=826.99&is_npt=false&is_multipart=false&client_id=skyscanner_website&q_ids=H4sIAAAAAAAA_-PS52JJycgvEOLjuNXKqMRhaWpqZmZkYSzFy_E0EsI1NTAzVWh4t-UymxGTAhMAvTlYXjEAAAA|-7513583736115587095|2&q_sources=JACQUARD&commercial_filters=false&q_datetime_utc=2026-07-31T15:20:45&transfer_protection=protected&pqid=false&fare_type=base_fare"
+    },
+    {
+      "id": "17114-2608011940--30727-0-11493-2608012050",
+      "price": {
+        "amount": 649.94,
+        "currency": "EUR",
+        "formatted": "EUR 649.94"
+      },
+      "legs": [
+        {
+          "origin": "TRS",
+          "destination": "FCO",
+          "departure": "2026-08-01T19:40:00",
+          "arrival": "2026-08-01T20:50:00",
+          "durationMinutes": 70,
+          "stopCount": 0,
+          "carriers": [
+            {
+              "name": "ITA Airways",
+              "logoUrl": "https://logos.skyscnr.com/images/airlines/favicon/AZ.png"
+            }
+          ]
+        }
+      ],
+      "score": 0,
+      "tags": [
+        
+      ],
+      "bookingUrl": "https://www.skyscanner.net/transport_deeplink/4.0/IT/en-GB/EUR/edit/1/17114.11493.2026-08-01/air/trava/flights?itinerary=flight|-30727|1364|17114|2026-08-01T19:40|11493|2026-08-01T20:50|70|-|-|-&carriers=-30727&operators=-30727&passengers=2&channel=website&cabin_class=economy&fps_session_id=c7f67776-71d6-47aa-aa0e-6187ae7872b2&ticket_price=649.94&is_npt=false&is_multipart=false&client_id=skyscanner_website&q_ids=H4sIAAAAAAAA_-PS52JJTcksEeLjuNXKqMRhaWpqZmZkYSzFy_E0EsI1NTAzVWh4t-UymxGTAhMACBwyfzEAAAA|6602161993563064422|2&q_sources=JACQUARD&commercial_filters=false&q_datetime_utc=2026-07-31T15:20:45&pqid=true&fare_type=base_fare"
+    },
+    {
+      "id": "17114-2608011315--31915-1-11493-2608011715",
+      "price": {
+        "amount": 1003.99,
+        "currency": "EUR",
+        "formatted": "EUR 1003.99"
+      },
+      "legs": [
+        {
+          "origin": "TRS",
+          "destination": "FCO",
+          "departure": "2026-08-01T13:15:00",
+          "arrival": "2026-08-01T17:15:00",
+          "durationMinutes": 240,
+          "stopCount": 1,
+          "carriers": [
+            {
+              "name": "Ryanair",
+              "logoUrl": "https://logos.skyscnr.com/images/airlines/favicon/FR.png"
+            }
+          ]
+        }
+      ],
+      "score": 0,
+      "tags": [
+        
+      ],
+      "bookingUrl": "https://www.skyscanner.net/transport_deeplink/4.0/IT/en-GB/EUR/dhop/1/17114.11493.2026-08-01/air/trava/flights?itinerary=flight|-31915|1759|17114|2026-08-01T13:15|15439|2026-08-01T14:50|95|-|-|-;flight|-31915|4903|15439|2026-08-01T16:00|11493|2026-08-01T17:15|75|-|-|-&carriers=-31915&operators=-30823;-30823&passengers=2&channel=website&cabin_class=economy&fps_session_id=c7f67776-71d6-47aa-aa0e-6187ae7872b2&ticket_price=1003.99&is_npt=false&is_multipart=false&client_id=skyscanner_website&q_ids=H4sIAAAAAAAA_-PS52JJycgvEOLjuNXKqMRhaWpqZmZkYSzFy_E0EsI1NTAzVWh4t-UymxGTAhMAvTlYXjEAAAA|7834079784995077589|2&q_sources=JACQUARD&commercial_filters=false&q_datetime_utc=2026-07-31T15:20:45&transfer_protection=protected&pqid=false&fare_type=base_fare"
+    }
+  ],
+  "total": 10
+}
