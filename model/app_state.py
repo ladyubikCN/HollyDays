@@ -2,9 +2,7 @@ from model.country import Country
 from model.airport import Airport
 import json
 import csv
-import time
 from curl_cffi import requests
-import math
 from datetime import datetime
 from datetime import timedelta
 from itertools import product
