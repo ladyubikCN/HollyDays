@@ -8,23 +8,36 @@ from .results_table import refresh_results
 from model.cache import Cache
 import csv
 
+def show_error(page, text):
+    def close(e):
+        error_dialog.open = False
+        page.update()
+
+    error_dialog = flet.AlertDialog(
+        title=flet.Text("Errore!", color="red"),
+        content=flet.Text(text),
+        actions=[
+            flet.TextButton("Chiudi", on_click=close)
+        ],
+        actions_alignment=flet.MainAxisAlignment.END,
+    )
+
+    page.overlay.append(error_dialog)
+    error_dialog.open = True
+    page.update()
+
 def search_flights(e, state, page):
+    if state.credits_key == "":
+        show_error(page, "Inserisci la chiave nell'account")
+        return
+
     f_cache = open("files/cache.csv", "r", encoding="utf-8")
     reader = csv.reader(f_cache)
     totale = sum(int(riga[2]) for riga in reader if riga[0] == state.credits_key)
+    f_cache.close()
     if(totale >= 20):
-        dialogo_errore = flet.AlertDialog(
-                            title=flet.Text("Errore!", color="red"),
-                            content=flet.Text("Si è verificato un problema durante l'operazione."),
-                            actions=[
-                                flet.TextButton(
-                                    "Chiudi", 
-                                    on_click=lambda e: page.close(dialogo_errore)  # Chiude il popup
-                                )
-                            ],
-                            actions_alignment=flet.MainAxisAlignment.END,
-                        )
-        page.open(dialogo_errore)
+        show_error(page, "Hai esaurito i crediti")
+        return
 
     flights = state.find_flights_serpapi(state)
     cache = Cache()

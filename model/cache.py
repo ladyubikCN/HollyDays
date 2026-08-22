@@ -7,7 +7,7 @@ class Cache:
 
     def save_research(self, state):
         f_cache = open("files/cache.csv", "a", encoding="utf-8")
-        f_cache.write(datetime.now().strftime("%Y-%m-%dT%H:%M:%S") + ";" + state.credits_key + ";" + str(len(state.valid_date_couples) * 2))
+        f_cache.write(datetime.now().strftime("%Y-%m-%dT%H:%M:%S") + ";" + state.credits_key + ";" + str(len(state.valid_date_couples) * 2) + "\n")
         f_cache.close()
 
     def save_results(self, outbound_flights, inbound_flights):
