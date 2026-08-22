@@ -1,5 +1,6 @@
 import flet
 from datetime import datetime
+from .search_bar import refresh_cost
 
 _departures_column = None
 _arrivals_column = None
@@ -133,7 +134,8 @@ def refresh_selected_dates(start_date, end_date, state, page):
                     on_delete=lambda e: remove_selected_dates(e, state),
                 )
         
-        _dates_column.controls.append(chip)    
+        _dates_column.controls.append(chip)   
+        refresh_cost(state) 
 
 def refresh_selected_nights(state, page):
     _nights_column.controls.clear()
@@ -147,7 +149,8 @@ def refresh_selected_nights(state, page):
                         padding=flet.Padding.symmetric(horizontal=8, vertical=2),
                         border_radius=8, 
                     )
-    _nights_column.controls.append(chip)        
+    _nights_column.controls.append(chip)
+    refresh_cost(state)   
 
 def refresh_selected_passengers(state, page):
     _passengers_column.controls.clear()

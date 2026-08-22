@@ -2,6 +2,7 @@ import flet
 from .mini_range_calendar import MiniRangeCalendar
 from .selection_section import refresh_selected_dates
 from .anchor_menu import AnchorMenu
+from .search_bar import refresh_cost
 
 def show_calendar(e, page, dates_picker):
     page.overlay.append(dates_picker)
@@ -11,6 +12,8 @@ def show_calendar(e, page, dates_picker):
 def add_dates(page, state):
     def date_range_selected(start_date, end_date, state):
         refresh_selected_dates(start_date, end_date, state, page)
+        refresh_cost(state)
+        
 
     dates_container = flet.Container(padding=flet.Padding.only(right=2), bgcolor=flet.Colors.TRANSPARENT)
     date_column = flet.Column(expand=True, spacing=0)

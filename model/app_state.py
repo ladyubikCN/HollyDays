@@ -31,6 +31,8 @@ class AppState:
     selected_nights_max = 4
     selected_passengers = 1
     found_flights = []
+    language = "Italiano"
+    credits_key = "BkhgERMvftRY"
     
     def __new__(cls):
             if cls._instance is None:

@@ -6,8 +6,26 @@ from .passengers import add_passengers_container
 from .dates import add_dates
 from .results_table import refresh_results
 from model.cache import Cache
+import csv
 
 def search_flights(e, state, page):
+    f_cache = open("files/cache.csv", "r", encoding="utf-8")
+    reader = csv.reader(f_cache)
+    totale = sum(int(riga[2]) for riga in reader if riga[0] == state.credits_key)
+    if(totale >= 20):
+        dialogo_errore = flet.AlertDialog(
+                            title=flet.Text("Errore!", color="red"),
+                            content=flet.Text("Si è verificato un problema durante l'operazione."),
+                            actions=[
+                                flet.TextButton(
+                                    "Chiudi", 
+                                    on_click=lambda e: page.close(dialogo_errore)  # Chiude il popup
+                                )
+                            ],
+                            actions_alignment=flet.MainAxisAlignment.END,
+                        )
+        page.open(dialogo_errore)
+
     flights = state.find_flights_serpapi(state)
     cache = Cache()
     cache.save_research(state)
@@ -26,6 +44,7 @@ def add_search_bar(page, state):
     dates_container = add_dates(page, state)
     nights_container = add_nights_container(page, state)
     passengers_container = add_passengers_container(page, state)
+    credits_text = flet.Text("")
 
     filters_row.controls.append(departure_flights_container)    
     filters_row.controls.append(arrival_flights_container)    
@@ -33,26 +52,78 @@ def add_search_bar(page, state):
     filters_row.controls.append(nights_container)
     filters_row.controls.append(passengers_container)
     filters_row.controls.append(flet.Container(
-                                    flet.ElevatedButton(
-                                        "Cerca", 
-                                        bgcolor=page.theme.color_scheme.secondary, 
-                                        color=page.theme.color_scheme.on_surface, 
-                                        style=flet.ButtonStyle(shape=flet.RoundedRectangleBorder(radius=4), 
-                                                               text_style=flet.TextStyle(weight=flet.FontWeight.BOLD, 
-                                                                                    size=18),
-                                                                padding=flet.Padding.symmetric(horizontal=20)), 
-                                        height=54,
-                                        on_click=lambda e:search_flights(e, state, page)
+                                    flet.Row(
+                                        [flet.ElevatedButton(
+                                            "Cerca", 
+                                            bgcolor=page.theme.color_scheme.secondary, 
+                                            color=page.theme.color_scheme.on_surface, 
+                                            style=flet.ButtonStyle(shape=flet.RoundedRectangleBorder(radius=4), 
+                                                                text_style=flet.TextStyle(weight=flet.FontWeight.BOLD, 
+                                                                                        size=18),
+                                                                    padding=flet.Padding.symmetric(horizontal=20)), 
+                                            height=54,
+                                            on_click=lambda e:search_flights(e, state, page)
+                                        ),
+                                        credits_text]
                                     ), 
                                     expand=1, 
                                     padding=flet.Padding(top=27, left=-50),
                                     bgcolor=flet.Colors.TRANSPARENT
                                 ))
     
-    search_bar.controls.append(flet.Row([ flet.Icon(flet.Icons.FLIGHT_TAKEOFF, color=page.theme.color_scheme.secondary, size=46), flet.Column([flet.Text("HollyDay...", style=flet.TextStyle(font_family="Fredoka", size=46, weight=flet.FontWeight.BOLD, color=page.theme.color_scheme.on_primary)), flet.Text("Free Your Holiday", style=flet.TextStyle(font_family="Fredoka", size=23, weight=flet.FontWeight.NORMAL, color=page.theme.color_scheme.on_primary))], spacing=0)]))
+    search_bar.controls.append(flet.Row(
+                                [flet.Icon(flet.Icons.FLIGHT_TAKEOFF, color=page.theme.color_scheme.secondary, size=46), 
+                                 flet.Column(
+                                    [
+                                        flet.Text("HollyDay...", 
+                                                style=flet.TextStyle(font_family="Fredoka", 
+                                                                     size=46, 
+                                                                     weight=flet.FontWeight.BOLD, 
+                                                                     color=page.theme.color_scheme.on_primary)), 
+                                        flet.Text("Free Your Holiday", 
+                                                 style=flet.TextStyle(font_family="Fredoka", 
+                                                                      size=23, 
+                                                                      weight=flet.FontWeight.NORMAL, 
+                                                                      color=page.theme.color_scheme.on_primary))
+                                        ],
+                                        spacing=0),
+                                        flet.Container(expand=True),
+                                        flet.PopupMenuButton(icon=flet.Icons.LANGUAGE, 
+                                                             icon_color=page.theme.color_scheme.on_primary, 
+                                                             icon_size=36, 
+                                                             tooltip="Lingua",
+                                                             items=[
+                                                                 flet.PopupMenuItem(
+                                                                     content="Italiano",
+                                                                     on_click=lambda e:change_language(state, "Italiano")
+                                                                 )
+                                                             ]),
+                                        flet.PopupMenuButton(flet.Icons.ACCOUNT_CIRCLE, 
+                                                             icon_color=page.theme.color_scheme.on_primary, 
+                                                             icon_size=36, 
+                                                             tooltip="Account",
+                                                             items=[
+                                                                 flet.PopupMenuItem(
+                                                                     flet.TextField(
+                                                                         password=True,
+                                                                         can_reveal_password=True,
+                                                                         on_change=lambda e:change_key(state)
+                                                                     )
+                                                                 )
+                                                             ])
+                                    ]))
     search_bar.controls.append(filters_row)
     search_bar_container.content = search_bar
     
     return search_bar_container
+
+def change_language(state,lang):
+    state.language = lang
+
+def change_key(e, state):
+    state.credits_key = e.control.value
+
+def refresh_cost(state):
+    credits_text.value = "Questa ricerca richiede " + str(len(state.valid_date_couples)) + " crediti"
 
 
