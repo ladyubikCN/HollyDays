@@ -44,7 +44,6 @@ def add_search_bar(page, state):
     dates_container = add_dates(page, state)
     nights_container = add_nights_container(page, state)
     passengers_container = add_passengers_container(page, state)
-    credits_text = flet.Text("")
 
     filters_row.controls.append(departure_flights_container)    
     filters_row.controls.append(arrival_flights_container)    
@@ -63,8 +62,7 @@ def add_search_bar(page, state):
                                                                     padding=flet.Padding.symmetric(horizontal=20)), 
                                             height=54,
                                             on_click=lambda e:search_flights(e, state, page)
-                                        ),
-                                        credits_text]
+                                        )]
                                     ), 
                                     expand=1, 
                                     padding=flet.Padding(top=27, left=-50),
@@ -122,8 +120,5 @@ def change_language(state,lang):
 
 def change_key(e, state):
     state.credits_key = e.control.value
-
-def refresh_cost(state):
-    credits_text.value = "Questa ricerca richiede " + str(len(state.valid_date_couples)) + " crediti"
 
 

@@ -1,15 +1,15 @@
 import flet
 from datetime import datetime
-from .search_bar import refresh_cost
 
+_credits_text = None
 _departures_column = None
 _arrivals_column = None
 _dates_column = None
 _nights_column = None
 _passengers_column = None
 
-
 def add_selection_section(page):
+    global _credits_text
     global _departures_column
     global _arrivals_column
     global _dates_column
@@ -22,13 +22,15 @@ def add_selection_section(page):
 
     selection_items = flet.Column(expand=True, spacing = 20, scroll=flet.ScrollMode.AUTO)
 
+    _credits_text = flet.Text("Crediti richiesti: 0", color=page.theme.color_scheme.on_primary, size=15, weight=flet.FontWeight.BOLD)
     _departures_column = flet.Column()
     _arrivals_column = flet.Column()
     _dates_column = flet.Column()
     _nights_column = flet.Column()
     _passengers_column = flet.Column()
 
-    selection_items.controls.extend([flet.Text("Partenze Selezionate", color=page.theme.color_scheme.on_primary, size=15, weight=flet.FontWeight.BOLD), 
+    selection_items.controls.extend([_credits_text,
+                                     flet.Text("Partenze Selezionate", color=page.theme.color_scheme.on_primary, size=15, weight=flet.FontWeight.BOLD), 
                                      _departures_column, 
                                      flet.Text("Destinazioni Selezionate", color=page.theme.color_scheme.on_primary, size=15, weight=flet.FontWeight.BOLD),
                                      _arrivals_column, 
@@ -135,7 +137,7 @@ def refresh_selected_dates(start_date, end_date, state, page):
                 )
         
         _dates_column.controls.append(chip)   
-        refresh_cost(state) 
+    _credits_text.value = "Crediti richiesti: " + str(len(state.valid_date_couples))
 
 def refresh_selected_nights(state, page):
     _nights_column.controls.clear()
@@ -150,7 +152,8 @@ def refresh_selected_nights(state, page):
                         border_radius=8, 
                     )
     _nights_column.controls.append(chip)
-    refresh_cost(state)   
+
+    _credits_text.value = "Crediti richiesti: " + str(len(state.valid_date_couples))
 
 def refresh_selected_passengers(state, page):
     _passengers_column.controls.clear()
