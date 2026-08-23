@@ -1,14 +1,17 @@
 import flet
 from datetime import datetime, timedelta
 from model.cache import Cache
+import requests
+import base64
 
 _table_rows = None
 _results_container = None
+_logo_cache = {}
 
 def add_results_table(page):
     global _table_rows, _results_container
 
-    header = flet.Container(content=flet.Row(
+    '''header = flet.Container(content=flet.Row(
         controls=[
             flet.Text("Andata", expand=3, weight=flet.FontWeight.BOLD, text_align="center"),
             flet.Text("Ritorno", expand=3, weight=flet.FontWeight.BOLD, text_align="center"),
@@ -16,8 +19,8 @@ def add_results_table(page):
             flet.Text("Prezzo", expand=1, weight=flet.FontWeight.BOLD, text_align="center"),
         ]
     ))
-    header.bgcolor = page.theme.color_scheme.primary
-    header.padding = 10
+    header.bgcolor = flet.Colors.WHITE
+    header.padding = 10'''
 
     # Avvolgiamo la tabella in una ListView o Column con scroll per evitare che esca dallo schermo
     _table_rows = flet.ListView(
@@ -29,8 +32,8 @@ def add_results_table(page):
         expand=True,
         spacing=0,
         controls=[
-            header,
-            flet.Container(content=_table_rows, bgcolor=page.theme.color_scheme.surface_container, expand=True)          # ListView(expand=True)
+            #header,
+            flet.Container(content=_table_rows, bgcolor=page.theme.color_scheme.primary, expand=True)          # ListView(expand=True)
         ],
     )
 
@@ -39,57 +42,108 @@ def add_results_table(page):
     #_results_container.visible = False
     return _results_container
 
+def get_airline_logo(url):
+    
+    if not url:
+        return None
+    if url in _logo_cache:
+        return _logo_cache[url]
+    
+    try:
+        response = requests.get(url, timeout=5)
+        if response.status_code == 200:
+            # Converti i byte dell'immagine in Base64
+            img_b64 = base64.b64encode(response.content).decode("utf-8")
+            _logo_cache[url] = img_b64
+            return img_b64
+    except Exception:
+        pass
+    return None
+
 def refresh_results(flights, page):
     for outbound_flight, inbound_flight in flights:
         nights = (datetime.strptime(inbound_flight['departure_at'], "%Y-%m-%d %H:%M").date()
     - datetime.strptime(outbound_flight['departure_at'], "%Y-%m-%d %H:%M").date()).days
         times = datetime.strptime(outbound_flight['departure_at'], "%Y-%m-%d %H:%M").strftime("%d-%m-%Y %H:%M") + " - " + datetime.strptime(outbound_flight['arrival_at'], "%Y-%m-%d %H:%M").strftime("%H:%M")
+        outbound_logo = get_airline_logo(outbound_flight['airline_logo'])
         outbound_container = flet.Container(
                                 flet.Row(controls=[
-                                    flet.Image(outbound_flight['airline_logo'], 
-                                               width=70, 
-                                               height=70,
+                                    flet.Image(outbound_logo, 
+                                               width=45, 
+                                               height=45,
                                                fit="contain"),
                                     flet.Column([
-                                        flet.Text(outbound_flight['origin_name'] + " - " + outbound_flight['destination_name']),
-                                        flet.Text(times)],
+                                        flet.Text(outbound_flight['origin'] + " - " + outbound_flight['destination'], 
+                                                  size=18, 
+                                                  text_align=flet.TextAlign.CENTER,
+                                                  weight=flet.FontWeight.BOLD, 
+                                                  ),
+                                        flet.Text(outbound_flight['origin_name'] + " - " + outbound_flight['destination_name'], 
+                                                  size=12, 
+                                                  text_align=flet.TextAlign.CENTER,
+                                                  ),
+                                        flet.Text(times, 
+                                                  size=14, 
+                                                  text_align=flet.TextAlign.CENTER,
+                                                  )],
                                         spacing=2,
                                         alignment=flet.MainAxisAlignment.CENTER,
+                                        horizontal_alignment=flet.CrossAxisAlignment.CENTER,
                                         expand=True
-                                    )]
+                                    )],
                                 ), expand=3)
 
         times = datetime.strptime(inbound_flight['departure_at'], "%Y-%m-%d %H:%M").strftime("%d-%m-%Y %H:%M") + " - " + datetime.strptime(inbound_flight['arrival_at'], "%Y-%m-%d %H:%M").strftime("%H:%M")
+        inbound_logo = get_airline_logo(inbound_flight['airline_logo'])
         inbound_container = flet.Container(
                                         flet.Row(controls=[
-                                            flet.Image(inbound_flight['airline_logo'], 
-                                               width=70, 
-                                               height=70,
+                                            flet.Image(inbound_logo, 
+                                               width=45, 
+                                               height=45,
                                                fit="contain"),
                                             flet.Column([
-                                                flet.Text(inbound_flight['origin_name'] + " - " + inbound_flight['destination_name']),
-                                                flet.Text(times)],
+                                                flet.Text(inbound_flight['origin'] + " - " + inbound_flight['destination'], 
+                                                            size=18, 
+                                                            text_align=flet.TextAlign.CENTER,
+                                                            weight=flet.FontWeight.BOLD, 
+                                                            ),
+                                                flet.Text(inbound_flight['origin_name'] + " - " + inbound_flight['destination_name'], 
+                                                            size=12, 
+                                                            text_align=flet.TextAlign.CENTER,
+                                                            ),
+                                                flet.Text(times, 
+                                                            size=14, 
+                                                            text_align=flet.TextAlign.CENTER,
+                                                            )],
                                                 spacing=2,
                                                 alignment=flet.MainAxisAlignment.CENTER,
+                                                horizontal_alignment=flet.CrossAxisAlignment.CENTER,
                                                 expand=True
                                             )]
                                         ), expand=3)
 
         row = flet.Container(
-            padding=10,
-            border=flet.Border.only(
-                bottom=flet.BorderSide(1, flet.Colors.GREY_300)
-            ),
             data={
                 "price":outbound_flight['price'] + inbound_flight['price']
             },
             content=flet.Row(controls=[outbound_container, 
                                        inbound_container,
-                                       flet.Text(str(nights), expand=1, text_align="center"),
-                                       flet.Text(str(outbound_flight['price'] + inbound_flight['price']), weight=flet.FontWeight.BOLD, color=flet.Colors.GREEN_700, expand=1, text_align="center")
+                                       flet.Text(str(nights) + " notti", expand=1, text_align="center"),
+                                       flet.Text(str(outbound_flight['price'] + inbound_flight['price']) + " €", weight=flet.FontWeight.BOLD, color=flet.Colors.GREEN_700, expand=1, text_align="center")
                                        ]
-                            )
+                            ),
+            bgcolor=flet.Colors.WHITE,
+            padding=20,
+            margin=flet.Margin.only(bottom=12),
+            border_radius=12,
+            border=flet.Border.all(1, flet.Colors.GREY_300),
+            shadow=flet.BoxShadow(
+                blur_radius=4,
+                spread_radius=0,
+                color=flet.Colors.with_opacity(0.05, flet.Colors.BLACK),
+                offset=flet.Offset(0,2)
             )
+        )
         _table_rows.controls.append(row)
         
     # Rendiamo visibile la tabella e aggiorniamo la pagina

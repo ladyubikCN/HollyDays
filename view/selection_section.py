@@ -22,14 +22,31 @@ def add_selection_section(page):
 
     selection_items = flet.Column(expand=True, spacing = 20, scroll=flet.ScrollMode.AUTO)
 
-    _credits_text = flet.Text("Crediti richiesti: 0", color=page.theme.color_scheme.on_primary, size=15, weight=flet.FontWeight.BOLD)
+    _credits_text = flet.Text("Crediti richiesti: 0", 
+                              color=page.theme.color_scheme.primary, 
+                              size=15, 
+                              weight=flet.FontWeight.BOLD,
+                              text_align=flet.TextAlign.CENTER)
+    _credits_tooltip = flet.Text("Se ripeti la stessa ricerca entro un'ora sarà gratuita", 
+                                  color=page.theme.color_scheme.primary, 
+                                  size=12, 
+                                  weight=flet.FontWeight.BOLD,
+                                  text_align=flet.TextAlign.CENTER)
     _departures_column = flet.Column()
     _arrivals_column = flet.Column()
     _dates_column = flet.Column()
     _nights_column = flet.Column()
     _passengers_column = flet.Column()
 
-    selection_items.controls.extend([_credits_text,
+    selection_items.controls.extend([flet.Container(content=flet.Column(
+                                                        [_credits_text,
+                                                         _credits_tooltip],
+                                                         horizontal_alignment=flet.CrossAxisAlignment.CENTER, 
+                                                    ), 
+                                                    bgcolor=page.theme.color_scheme.secondary, 
+                                                    alignment=flet.Alignment.CENTER,
+                                                    margin=flet.Margin.only(bottom=20),
+                                                    padding=10, border_radius=5),
                                      flet.Text("Partenze Selezionate", color=page.theme.color_scheme.on_primary, size=15, weight=flet.FontWeight.BOLD), 
                                      _departures_column, 
                                      flet.Text("Destinazioni Selezionate", color=page.theme.color_scheme.on_primary, size=15, weight=flet.FontWeight.BOLD),
@@ -137,7 +154,7 @@ def refresh_selected_dates(start_date, end_date, state, page):
                 )
         
         _dates_column.controls.append(chip)   
-    _credits_text.value = "Crediti richiesti: " + str(len(state.valid_date_couples))
+    _credits_text.value = "Crediti richiesti: " + str(len(state.valid_date_couples) * 2)
 
 def refresh_selected_nights(state, page):
     _nights_column.controls.clear()
@@ -153,7 +170,7 @@ def refresh_selected_nights(state, page):
                     )
     _nights_column.controls.append(chip)
 
-    _credits_text.value = "Crediti richiesti: " + str(len(state.valid_date_couples))
+    _credits_text.value = "Crediti richiesti: " + str(len(state.valid_date_couples) * 2)
 
 def refresh_selected_passengers(state, page):
     _passengers_column.controls.clear()

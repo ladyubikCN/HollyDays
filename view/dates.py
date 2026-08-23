@@ -20,11 +20,13 @@ def add_dates(page, state):
                                        width=float("inf"), 
                                        height=55, 
                                        icon=flet.Icons.CALENDAR_MONTH,
+                                       icon_color=page.theme.color_scheme.primary,
+                                       bgcolor=page.theme.color_scheme.on_primary,
                                        margin=flet.Margin.only(top=9, right=3),
                                        style=flet.ButtonStyle(
                                            side=flet.BorderSide(
                                            width=1,
-                                           color=flet.Colors.WHITE,
+                                           color=page.theme.color_scheme.primary,
                                         )))
 
     dates_research_menu = AnchorMenu(page, dates_button, dates_picker, False, True)

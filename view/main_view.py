@@ -27,7 +27,8 @@ def show_full_page(page: flet.Page):
         ),
         color_scheme=flet.ColorScheme(
             # IL CUORE DELLA PALETTE POP
-            primary=flet.Colors.BLUE_ACCENT_400,       # Blu elettrico vibrante (bottoni principali, focus)
+            #primary=flet.Colors.BLUE_ACCENT_400,       # Blu elettrico vibrante (bottoni principali, focus)
+            primary="#1A365D",
             secondary=flet.Colors.ORANGE_500,          # Arancione acceso (accenti, notifiche, tasti speciali)
             
             # GESTIONE DEGLI SFONDI (Senza usare la vecchia voce 'background')

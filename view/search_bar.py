@@ -69,7 +69,7 @@ def add_search_bar(page, state):
                                             "Cerca", 
                                             bgcolor=page.theme.color_scheme.secondary, 
                                             color=page.theme.color_scheme.on_surface, 
-                                            style=flet.ButtonStyle(shape=flet.RoundedRectangleBorder(radius=4), 
+                                            style=flet.ButtonStyle(shape=flet.RoundedRectangleBorder(radius=8), 
                                                                 text_style=flet.TextStyle(weight=flet.FontWeight.BOLD, 
                                                                                         size=18),
                                                                     padding=flet.Padding.symmetric(horizontal=20)), 
@@ -118,7 +118,7 @@ def add_search_bar(page, state):
                                                                      flet.TextField(
                                                                          password=True,
                                                                          can_reveal_password=True,
-                                                                         on_change=lambda e:change_key(state)
+                                                                         on_change=lambda e:change_key(e,state)
                                                                      )
                                                                  )
                                                              ])
