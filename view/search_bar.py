@@ -37,6 +37,10 @@ def search_flights(e, state, page):
         show_error(page, "Inserisci la chiave nell'account")
         return
 
+    if not state.credits_key in state.valid_keys:
+        show_error(page, "Chiave non valida")
+        return
+    
     f_cache = open("files/cache.csv", "r", encoding="utf-8")
     reader = csv.reader(f_cache)
     totale = sum(int(riga[2]) for riga in reader if riga[0] == state.credits_key)

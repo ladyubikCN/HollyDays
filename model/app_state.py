@@ -33,11 +33,13 @@ class AppState:
     found_flights = []
     language = "Italiano"
     credits_key = ""
+    valid_keys = []
     
     def __new__(cls):
             if cls._instance is None:
                 cls._instance = super().__new__(cls)
-                cls._instance.airports = {} 
+                cls._instance.airports = {}
+                cls._instance.read_valid_keys() 
                 cls._instance.read_countries()
                 cls._instance.read_airports()
                 cls._instance.read_all_routes()
@@ -47,6 +49,11 @@ class AppState:
     def get_country_full_key(self, code):
         codes_map = {full_key[0]: full_key for full_key in self.countries.keys()}
         return codes_map.get(code)
+
+    def read_valid_keys(self):
+        f_keys = open("files/valid_keys.txt")
+        self.valid_keys = f_keys.readlines()
+        f_keys.close()
 
     # read all the countries
     def read_countries(self):
