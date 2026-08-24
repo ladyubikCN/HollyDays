@@ -52,7 +52,7 @@ class AppState:
 
     def read_valid_keys(self):
         f_keys = open("files/valid_keys.txt")
-        self.valid_keys = f_keys.readlines()
+        self.valid_keys = [line.strip() for line in f_keys.readlines()]
         f_keys.close()
 
     # read all the countries
