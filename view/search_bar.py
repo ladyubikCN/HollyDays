@@ -27,6 +27,9 @@ def show_error(page, text):
     page.update()
 
 def search_flights(e, state, page):
+    if page.client_storage.contains_key("credits_key"):
+        state.credits_key = page.client_storage.get("credits_key")
+
     if state.credits_key == "":
         show_error(page, "Inserisci la chiave nell'account")
         return
@@ -109,7 +112,7 @@ def add_search_bar(page, state):
                                                                      on_click=lambda e:change_language(state, "Italiano")
                                                                  )
                                                              ]),
-                                        flet.PopupMenuButton(flet.Icons.ACCOUNT_CIRCLE, 
+                                        flet.PopupMenuButton(icon=flet.Icons.ACCOUNT_CIRCLE, 
                                                              icon_color=page.theme.color_scheme.on_primary, 
                                                              icon_size=36, 
                                                              tooltip="Account",
@@ -118,7 +121,7 @@ def add_search_bar(page, state):
                                                                      flet.TextField(
                                                                          password=True,
                                                                          can_reveal_password=True,
-                                                                         on_change=lambda e:change_key(e,state)
+                                                                         on_change=lambda e:change_key(e,state, page)
                                                                      )
                                                                  )
                                                              ])
@@ -131,7 +134,8 @@ def add_search_bar(page, state):
 def change_language(state,lang):
     state.language = lang
 
-def change_key(e, state):
+def change_key(e, state, page):
+    page.client_storage.set("credits_key", e.control.value)
     state.credits_key = e.control.value
 
 
