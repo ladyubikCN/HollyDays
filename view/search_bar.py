@@ -7,6 +7,9 @@ from .dates import add_dates
 from .results_table import refresh_results
 from model.cache import Cache
 import csv
+from diskcache import Cache as DiskCache
+
+cookies = DiskCache("./user_cookies")
 
 def show_error(page, text):
     def close(e):
@@ -27,8 +30,8 @@ def show_error(page, text):
     page.update()
 
 def search_flights(e, state, page):
-    if page.client_storage.contains_key("credits_key"):
-        state.credits_key = page.client_storage.get("credits_key")
+    if cookies.get("credits_key"):
+        state.credits_key = cookies.get("credits_key")
 
     if state.credits_key == "":
         show_error(page, "Inserisci la chiave nell'account")
@@ -121,8 +124,9 @@ def add_search_bar(page, state):
                                                                      flet.TextField(
                                                                          password=True,
                                                                          can_reveal_password=True,
-                                                                         on_change=lambda e:change_key(e,state, page)
+                                                                         on_change=lambda e:change_key(e,state),
                                                                      )
+                                                                     
                                                                  )
                                                              ])
                                     ]))
@@ -134,8 +138,8 @@ def add_search_bar(page, state):
 def change_language(state,lang):
     state.language = lang
 
-def change_key(e, state, page):
-    page.client_storage.set("credits_key", e.control.value)
+def change_key(e, state):
+    cookies.set("credits_key", e.control.value, expire=86400 * 30)
     state.credits_key = e.control.value
 
 
