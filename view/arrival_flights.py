@@ -15,7 +15,9 @@ def show_country_list(page, state):
 
     for country in state.selectable_arrival_countries:
         if country in state.airports and state.airports[country] != []:
-            text = flet.Text(country[1] + " (" + country[0] + ")", data=country[1], on_tap=lambda e: add_arrival(e, state, page))
+            text = flet.Text(country[1] + " (" + country[0] + ")", 
+                             data=country[1], 
+                             on_tap=lambda e: add_arrival(e, state, page))
             _countries_list_controls.append(text)
             _country_list.controls.append(text)
     

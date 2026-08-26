@@ -43,7 +43,10 @@ def show_airport_list(page, state):
                 v for v in sorted(all_selected_airports, key=lambda item: item[2])
             ]
     for airport in all_selected_airports:
-        text = flet.Container(flet.Checkbox(airport[0] + " - " + airport[2] + " - " + airport[1] + " (" + airport[3] + ")", visual_density=flet.VisualDensity.COMPACT, on_change=lambda e: add_departure(e, state, page)), data=airport[3])
+        text = flet.Container(flet.Checkbox(airport[0] + " - " + airport[2] + " - " + airport[1] + " (" + airport[3] + ")", 
+                                            visual_density=flet.VisualDensity.COMPACT, 
+                                            on_change=lambda e: add_departure(e, state, page)), 
+                                            data=airport[3])
         _airport_list.controls.append(text)
         _airports_list_controls.append(text)
 
