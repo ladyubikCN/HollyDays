@@ -139,7 +139,9 @@ class AppState:
         for key, tuple_list in self.airports.items():
             matching_tuples = [
                 tup for tup in tuple_list 
-                if searched_text.lower() in tup[2].lower() or searched_text.lower() in tup[3].lower()
+                if searched_text.lower() in tup[2].lower() 
+                or searched_text.lower() in tup[3].lower()
+                or searched_text.lower() in tup[0].lower()
             ]
             if matching_tuples:
                 misc_airports[key] = matching_tuples
@@ -187,10 +189,11 @@ class AppState:
         iata = airport[-4:-1]
         
         if not iata in self.selected_departure_airports.keys():
-            city = airport.split(" - ")[0].strip()
-            country = airport.split(" - ")[1][:2]
+            name = airport.split(" - ")[0].strip()
+            city = airport.split(" - ")[1].strip()
+            country = airport.split(" - ")[2][:2]
             entity_id = self.find_entity_id(iata)
-            self.selected_departure_airports[iata] = (city, country, entity_id)
+            self.selected_departure_airports[iata] = (city, country, entity_id, name)
 
     def remove_departure_airport(self, airport):
         iata = airport[-4:-1]
@@ -201,10 +204,11 @@ class AppState:
         iata = airport[-4:-1]
                 
         if not iata in self.selected_departure_airports.keys():
-            city = airport.split(" - ")[0].strip()
-            country = airport.split(" - ")[1][:2]
+            name = airport.split(" - ")[0].strip()
+            city = airport.split(" - ")[1].strip()
+            country = airport.split(" - ")[2][:2]
             entity_id = self.find_entity_id(iata)
-            self.selected_arrival_airports[iata] = (city, country, entity_id)
+            self.selected_arrival_airports[iata] = (city, country, entity_id, name)
 
     def remove_arrival_airport(self, airport):
         iata = airport[-4:-1]

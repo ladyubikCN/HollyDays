@@ -48,7 +48,7 @@ def show_full_page(page: flet.Page):
     search_bar = add_search_bar(page, state)
     selection_section = add_selection_section(page)
     results_table = add_results_table(page) 
-    selection_and_results = flet.Row(controls=[selection_section, results_table], expand=True, spacing=0)
+    selection_and_results = flet.Row(controls=[selection_section, results_table], expand=True, spacing=0, vertical_alignment=flet.CrossAxisAlignment.STRETCH)
     page.add(
         flet.SafeArea(
             content=flet.Column(

@@ -31,13 +31,13 @@ def update_country_list(state):
 def show_airport_list(page, state):
     global _airport_list
     
-    _airport_list = flet.ListView(width=300, height=400)
+    _airport_list = flet.ListView(width=500, height=400)
     all_selected_airports = [tup for tuple_list in state.airports.values() for tup in tuple_list]
     all_selected_airports = [
                 v for v in sorted(all_selected_airports, key=lambda item: item[2])
             ]
     for airport in all_selected_airports:
-        text = flet.Container(flet.Checkbox(airport[2] + " - " + airport[1] + " (" + airport[3] + ")", on_change=lambda e:add_arrival(e, state, page)), data=airport[3])
+        text = flet.Container(flet.Checkbox(airport[0] + " - " + airport[2] + " - " + airport[1] + " (" + airport[3] + ")", on_change=lambda e:add_arrival(e, state, page)), data=airport[3])
         _airport_list.controls.append(text)
         _airports_list_controls.append(text)
 

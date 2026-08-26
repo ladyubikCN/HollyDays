@@ -72,22 +72,31 @@ def refresh_selected_departures(state, page):
     _departures_column.controls.clear()
     
     for airport in state.selected_departure_airports:
-        text = flet.Text(
+        place_text = flet.Text(
                         state.selected_departure_airports[airport][0] + " - " + state.selected_departure_airports[airport][1] + " (" + airport + ")",
                         size=16,
                         color=page.theme.color_scheme.on_surface,
                     ) 
+
+        name_text = flet.Text(
+                        state.selected_departure_airports[airport][3],
+                        size=10,
+                        color=page.theme.color_scheme.on_surface,
+                    )
+
+        both_texts = flet.Column([place_text, name_text], spacing=0, horizontal_alignment=flet.CrossAxisAlignment.CENTER)
         
         chip = flet.Chip(
-            text,
+            both_texts,
             bgcolor=page.theme.color_scheme.surface_container,
             delete_icon=flet.Icon(
                 flet.Icons.CLOSE,
                 size=18,
             ),
             delete_icon_color=page.theme.color_scheme.on_surface,
-            padding=flet.Padding.symmetric(horizontal=8, vertical=2),
+            padding=flet.Padding.symmetric(horizontal=8, vertical=6),
             on_delete=lambda e: remove_departure(e, state),
+            expand=True
         )
         _departures_column.controls.append(chip)
     _departures_column.update()
@@ -101,22 +110,31 @@ def remove_arrival(e, state):
 def refresh_selected_arrivals(state, page):
     _arrivals_column.controls.clear()
     for airport in state.selected_arrival_airports:
-        text = flet.Text(
+        place_text = flet.Text(
                             state.selected_arrival_airports[airport][0] + " - " + state.selected_arrival_airports[airport][1] + " (" + airport + ")",
                             size=16,
                             color=page.theme.color_scheme.on_surface,
                         ) 
 
+        name_text = flet.Text(
+                                state.selected_arrival_airports[airport][3],
+                                size=10,
+                                color=page.theme.color_scheme.on_surface,
+                            )
+        
+        both_texts = flet.Column([place_text, name_text], spacing=0, horizontal_alignment=flet.CrossAxisAlignment.CENTER)
+
         chip = flet.Chip(
-                    text,
+                    both_texts,
                     bgcolor=page.theme.color_scheme.surface_container,
                     delete_icon=flet.Icon(
                         flet.Icons.CLOSE,
                         size=18,
                     ),
                     delete_icon_color=page.theme.color_scheme.on_surface,
-                    padding=flet.Padding.symmetric(horizontal=8, vertical=2),
+                    padding=flet.Padding.symmetric(horizontal=8, vertical=6),
                     on_delete=lambda e: remove_arrival(e, state),
+                    expand=True
                 )
         
         _arrivals_column.controls.append(chip)
@@ -154,7 +172,7 @@ def refresh_selected_dates(start_date, end_date, state, page):
                 )
         
         _dates_column.controls.append(chip)   
-    _credits_text.value = "Crediti richiesti: " + str(len(state.valid_date_couples) * 2)
+    _credits_text.value = "Crediti richiesti: " + str(len(state.valid_date_couples))
 
 def refresh_selected_nights(state, page):
     _nights_column.controls.clear()
@@ -170,7 +188,7 @@ def refresh_selected_nights(state, page):
                     )
     _nights_column.controls.append(chip)
 
-    _credits_text.value = "Crediti richiesti: " + str(len(state.valid_date_couples) * 2)
+    _credits_text.value = "Crediti richiesti: " + str(len(state.valid_date_couples))
 
 def refresh_selected_passengers(state, page):
     _passengers_column.controls.clear()

@@ -83,7 +83,7 @@ class MiniRangeCalendar(flet.Container):
                     data_corrente = datetime(year, month, giorno).date()
                     
                     bg = None
-                    text_color = flet.Colors.ON_SURFACE
+                    text_color = flet.Colors.WHITE
                     
                     if self.start_date and data_corrente == self.start_date:
                         bg = flet.Colors.PRIMARY 

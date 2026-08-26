@@ -88,7 +88,7 @@ def add_search_bar(page, state):
                                         )]
                                     ), 
                                     expand=1, 
-                                    padding=flet.Padding(top=27, left=-50),
+                                    padding=flet.Padding(top=27, left=-10),
                                     bgcolor=flet.Colors.TRANSPARENT
                                 ))
     

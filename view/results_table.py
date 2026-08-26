@@ -3,50 +3,47 @@ from datetime import datetime, timedelta
 from model.cache import Cache
 import requests
 import base64
+import sqlite3
+from model.database import Database
 
 _table_rows = None
 _results_container = None
+_loading_container = None
 _logo_cache = {}
 
 def add_results_table(page):
-    global _table_rows, _results_container
+    global _table_rows, _results_container, _loading_container
 
-    '''header = flet.Container(content=flet.Row(
-        controls=[
-            flet.Text("Andata", expand=3, weight=flet.FontWeight.BOLD, text_align="center"),
-            flet.Text("Ritorno", expand=3, weight=flet.FontWeight.BOLD, text_align="center"),
-            flet.Text("Notti", expand=1, weight=flet.FontWeight.BOLD, text_align="center"),
-            flet.Text("Prezzo", expand=1, weight=flet.FontWeight.BOLD, text_align="center"),
-        ]
-    ))
-    header.bgcolor = flet.Colors.WHITE
-    header.padding = 10'''
-
-    # Avvolgiamo la tabella in una ListView o Column con scroll per evitare che esca dallo schermo
     _table_rows = flet.ListView(
         expand=True,
         spacing=0,
     )
 
-    content = flet.Column(
-        expand=True,
-        spacing=0,
-        controls=[
-            #header,
-            flet.Container(content=_table_rows, bgcolor=page.theme.color_scheme.primary, expand=True)          # ListView(expand=True)
-        ],
-    )
+    _loading_container = flet.Container(expand=True, 
+                                        bgcolor=page.theme.color_scheme.primary,
+                                        alignment=flet.Alignment.CENTER)
+    _progress_icon = flet.ProgressRing(color=page.theme.color_scheme.on_primary, 
+                                       width=100, 
+                                       height=100)
+    _loading_container.content=_progress_icon
+    _loading_container.visible = False
 
-    _results_container = flet.Container(expand=True, padding=flet.Padding.symmetric(horizontal=80), bgcolor=page.theme.color_scheme.primary)
-    _results_container.content = content
-    #_results_container.visible = False
+    _results_container = flet.Stack(controls=[_table_rows, _loading_container], expand=True)
+    
     return _results_container
 
 def get_airline_logo(url):
     
     if not url:
         return None
+    
     if url in _logo_cache:
+        return _logo_cache[url]
+
+    db = Database()
+    logo = db.get_logo(url)
+    if logo:
+        _logo_cache[url] = logo
         return _logo_cache[url]
     
     try:
@@ -55,12 +52,16 @@ def get_airline_logo(url):
             # Converti i byte dell'immagine in Base64
             img_b64 = base64.b64encode(response.content).decode("utf-8")
             _logo_cache[url] = img_b64
+            db.set_logo(url, img_b64)
             return img_b64
     except Exception:
         pass
     return None
 
 def refresh_results(flights, page):
+    _loading_container.visible = True
+    page.update()
+
     for outbound_flight, inbound_flight in flights:
         nights = (datetime.strptime(inbound_flight['departure_at'], "%Y-%m-%d %H:%M").date()
     - datetime.strptime(outbound_flight['departure_at'], "%Y-%m-%d %H:%M").date()).days
@@ -151,7 +152,7 @@ def refresh_results(flights, page):
         key=lambda r: r.data["price"]
     )
     
-    _table_rows.visible = True
-    _results_container.visible = True
+    _loading_container.visible = False
+
     page.update()
 
