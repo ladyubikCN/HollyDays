@@ -1,10 +1,4 @@
 import flet
-
-''' ----------------------- DA FARE -----------------------------
-    Qui manca ancora da fare la parte di posizionamento del menù. 
-    Sembra promettente il LayoutControl con offset.
-    https://flet.dev/docs/controls/layoutcontrol/ 
-    --------------------------------------------------------------'''
 class AnchorMenu(flet.Container):
 
     barrier = None

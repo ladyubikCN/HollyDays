@@ -28,7 +28,8 @@ def add_results_table(page):
     _loading_container.content=_progress_icon
     _loading_container.visible = False
 
-    _results_container = flet.Stack(controls=[_table_rows, _loading_container], expand=True)
+    _results_container = flet.Stack(controls=[_table_rows, _loading_container], 
+                                    expand=True)
     
     return _results_container
 
@@ -58,9 +59,14 @@ def get_airline_logo(url):
         pass
     return None
 
-def refresh_results(flights, page):
+def show_loading():
     _loading_container.visible = True
-    page.update()
+    _loading_container.update()
+
+def refresh_results(flights, page):
+    page.run_thread(lambda: update_table(flights, page))
+
+def update_table(flights, page):
 
     for outbound_flight, inbound_flight in flights:
         nights = (datetime.strptime(inbound_flight['departure_at'], "%Y-%m-%d %H:%M").date()

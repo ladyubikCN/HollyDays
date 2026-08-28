@@ -1,14 +1,12 @@
 import flet
 from .anchor_menu import AnchorMenu
 from .selection_section import refresh_selected_departures
-from .arrival_flights import refresh_selectable_arrivals
 
 _departures_research_menu = None
 _country_list = None
 _airport_list = None
 _countries_list_controls = []
 _airports_list_controls = []
-
 
 def show_country_list(page, state):
     global _country_list
@@ -20,7 +18,10 @@ def show_country_list(page, state):
             _countries_list_controls.append(text)
             _country_list.controls.append(text)
 
-    country_list_container = flet.Container(_country_list, bgcolor=page.theme.color_scheme.on_primary, border_radius=10, padding=flet.Padding.all(10))
+    country_list_container = flet.Container(_country_list, 
+                                            bgcolor=page.theme.color_scheme.on_primary, 
+                                            border_radius=10, 
+                                            padding=flet.Padding.all(10))
 
     return country_list_container
 
@@ -31,6 +32,7 @@ def update_country_list(state):
             control.visible = True
         else:
             control.visible = False
+            
     _country_list.update()
 
 def show_airport_list(page, state):
@@ -50,7 +52,11 @@ def show_airport_list(page, state):
         _airport_list.controls.append(text)
         _airports_list_controls.append(text)
 
-    airport_list_container = flet.Container(_airport_list, bgcolor=page.theme.color_scheme.on_primary, border_radius=10, padding=flet.Padding.all(10))
+    airport_list_container = flet.Container(_airport_list, 
+                                            bgcolor=page.theme.color_scheme.on_primary, 
+                                            border_radius=10, 
+                                            padding=flet.Padding.all(10),
+                                            margin=flet.Margin(370, 210))
 
     return airport_list_container    
 
@@ -79,7 +85,7 @@ def add_departure(e, state, page):
 
 def refresh_selectable_departures(e, state, page):
     state.filter_selectable_departures(e.control.value)
-    update_country_list(state)
+    #update_country_list(state)
     update_airport_list(page, state)
     
 # add the TextField for country/airport research
@@ -93,7 +99,8 @@ def add_departure_flights_container(page, state):
     country_list_container = show_country_list(page, state)
     airport_list_container = show_airport_list(page, state)
     both_list_container = flet.Container(flet.Row([country_list_container, airport_list_container]), margin=flet.Margin(370, 210), width=450, height=420)
-    _departures_research_menu = AnchorMenu(page, departures_research, both_list_container, False, True)
+    #_departures_research_menu = AnchorMenu(page, departures_research, both_list_container, False, True)
+    _departures_research_menu = AnchorMenu(page, departures_research, airport_list_container, False, True)
     departures_column.controls.append(_departures_research_menu)
 
     departures_container.content = departures_column

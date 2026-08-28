@@ -17,7 +17,8 @@ def show_country_list(page, state):
         if country in state.airports and state.airports[country] != []:
             text = flet.Text(country[1] + " (" + country[0] + ")", 
                              data=country[1], 
-                             on_tap=lambda e: add_arrival(e, state, page))
+                             on_tap=lambda e: add_arrival(e, state, page),
+                             visible=False)
             _countries_list_controls.append(text)
             _country_list.controls.append(text)
     
@@ -39,11 +40,20 @@ def show_airport_list(page, state):
                 v for v in sorted(all_selected_airports, key=lambda item: item[2])
             ]
     for airport in all_selected_airports:
-        text = flet.Container(flet.Checkbox(airport[0] + " - " + airport[2] + " - " + airport[1] + " (" + airport[3] + ")", on_change=lambda e:add_arrival(e, state, page)), data=airport[3])
+        text = flet.Container(
+                flet.Checkbox(airport[0] + " - " + airport[2] + " - " + airport[1] + " (" + airport[3] + ")", 
+                              on_change=lambda e:add_arrival(e, state, page),
+                            ), 
+                            data=airport[3],
+                            visible=False)
         _airport_list.controls.append(text)
         _airports_list_controls.append(text)
 
-    airport_list_container = flet.Container(_airport_list, bgcolor=page.theme.color_scheme.on_primary, border_radius=10, padding=flet.Padding.all(10))
+    airport_list_container = flet.Container(_airport_list, 
+                                            bgcolor=page.theme.color_scheme.on_primary, 
+                                            border_radius=10, 
+                                            padding=flet.Padding.all(10),
+                                            margin=flet.Margin(740, 210))
 
     return airport_list_container     
 
@@ -71,7 +81,7 @@ def add_arrival(e, state, page):
 
 def refresh_selectable_arrivals(e, state, page):
     state.filter_selectable_arrivals(e.control.value)
-    update_country_list(state)
+    #update_country_list(state)
     update_airport_list(page, state)
 
 def add_arrival_flights_container(page, state):
@@ -84,7 +94,8 @@ def add_arrival_flights_container(page, state):
     country_list_container = show_country_list(page, state)
     airport_list_container = show_airport_list(page, state)
     both_list_container = flet.Container(flet.Row([country_list_container, airport_list_container]), margin=flet.Margin(740, 210), width=950, height=420)
-    _arrivals_research_menu = AnchorMenu(page, arrivals_research, both_list_container, False, True)
+    #_arrivals_research_menu = AnchorMenu(page, arrivals_research, both_list_container, False, True)
+    _arrivals_research_menu = AnchorMenu(page, arrivals_research, airport_list_container, False, True)
     arrival_column.controls.append(arrivals_research)
     arrivals_container.content = arrival_column
     arrivals_container.expand = 4

@@ -9,7 +9,7 @@ def show_full_page(page: flet.Page):
     page.title = "Free Your Holiday"
     page.padding = 0
     page.spacing = 0
-    page.bgcolor = flet.Colors.GREY_100
+    page.bgcolor = "#1A365D"
     page.assets_dir = "../files"
     page.fonts = {
         # URL stabili e diretti presi dalle repo ufficiali di Google Fonts su GitHub

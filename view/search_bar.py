@@ -5,9 +5,13 @@ from .nights import add_nights_container
 from .passengers import add_passengers_container
 from .dates import add_dates
 from .results_table import refresh_results
+from .results_table import show_loading
 from model.cache import Cache
 import csv
 from diskcache import Cache as DiskCache
+from threading import Timer
+
+_search_timer = None
 
 cookies = DiskCache("./user_cookies")
 
@@ -30,6 +34,17 @@ def show_error(page, text):
     page.update()
 
 def search_flights(e, state, page):
+    global _search_timer
+
+    if _search_timer is not None:
+        _search_timer.cancel()
+
+        _search_timer = Timer(0.5, do_actual_search, args=[state, page])
+        _search_timer.start()
+
+def do_actual_search(state, page):
+    show_loading()
+
     if cookies.get("credits_key"):
         state.credits_key = cookies.get("credits_key")
 
@@ -52,6 +67,7 @@ def search_flights(e, state, page):
     flights = state.find_flights_serpapi(state)
     cache = Cache()
     cache.save_research(state)
+
     refresh_results(flights, page)
 
 def add_search_bar(page, state):

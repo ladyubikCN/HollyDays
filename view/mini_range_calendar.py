@@ -55,10 +55,6 @@ class MiniRangeCalendar(flet.Container):
         # Disegna il month corrente solo quando il controllo è agganciato alla pagina
         self.draw_month(self.current_year, self.current_month)
     
-    def gestisci_hover(self, e):
-        e.control.style.bgcolor = flet.Colors.GREEN
-        self.update()
-
     def draw_month(self, year, month):
         self.current_year = year
         self.current_month = month
@@ -84,13 +80,16 @@ class MiniRangeCalendar(flet.Container):
                     
                     bg = None
                     text_color = flet.Colors.WHITE
+                    font_weight = flet.FontWeight.NORMAL
                     
                     if self.start_date and data_corrente == self.start_date:
-                        bg = flet.Colors.PRIMARY 
-                        text_color = flet.Colors.ON_PRIMARY
+                        bg = flet.Colors.PRIMARY_CONTAINER 
+                        text_color = flet.Colors.ON_PRIMARY_CONTAINER
+                        font_weight = flet.FontWeight.BOLD
                     elif self.end_date and data_corrente == self.end_date:
-                        bg = flet.Colors.PRIMARY 
-                        text_color = flet.Colors.ON_PRIMARY
+                        bg = flet.Colors.PRIMARY_CONTAINER
+                        text_color = flet.Colors.ON_PRIMARY_CONTAINER
+                        font_weight = flet.FontWeight.BOLD
                     elif self.start_date and self.end_date and self.start_date < data_corrente < self.end_date:
                         bg = flet.Colors.PRIMARY_CONTAINER
                         text_color = flet.Colors.ON_PRIMARY_CONTAINER
@@ -101,7 +100,8 @@ class MiniRangeCalendar(flet.Container):
                                 bgcolor=bg,         # Applica il colore dinamico
                                 color=text_color,   # Applica il colore del testo dinamico
                                 shape=flet.RoundedRectangleBorder(radius=6),
-                                padding=0 # 💡 Fondamentale: azzera il padding interno così i numeri a due cifre non vengono tagliati
+                                padding=0, # 💡 Fondamentale: azzera il padding interno così i numeri a due cifre non vengono tagliati
+                                text_style=flet.TextStyle(weight=font_weight)
                             ),
                             on_click=make_click_handler(data_corrente) # Usiamo on_tap del GestureDetector
                         )

@@ -97,34 +97,40 @@ class AppState:
         self.filter_departure_airports("")
 
     def filter_departure_countries(self, searched_text):
-            self.selectable_departure_countries = {
-                key: value
-                for key, value in self.countries.items()
-                if searched_text.lower() in value.lower()
-            }
+            if(searched_text == ""):
+                self.selectable_departure_countries = self.countries.copy()
+            else:
+                self.selectable_departure_countries = {
+                    key: value
+                    for key, value in self.countries.items()
+                    if searched_text.lower() in value.lower()
+                }
 
     def filter_departure_airports(self, searched_text):
-        self.selectable_departure_airports.clear()
-        for country in self.selectable_departure_countries.items():
-            if country in self.airports.keys():
-                if country in self.selectable_departure_airports.keys():
-                    self.selectable_departure_airports[country].extend(self.airports[country])
-                else:
-                    self.selectable_departure_airports[country] = self.airports[country]
+        if searched_text == "":
+            self.selectable_departure_airports = self.airports.copy()
+        else:
+            self.selectable_departure_airports.clear()
+            for country in self.selectable_departure_countries.items():
+                if country in self.airports.keys():
+                    if country in self.selectable_departure_airports.keys():
+                        self.selectable_departure_airports[country].extend(self.airports[country])
+                    else:
+                        self.selectable_departure_airports[country] = self.airports[country]
 
-        misc_airports = {}
+            misc_airports = {}
 
-        for key, tuple_list in self.airports.items():
-            matching_tuples = [
-                tup for tup in tuple_list 
-                if searched_text.lower() in tup[2].lower() 
-                or searched_text.lower() in tup[3].lower()
-                or searched_text.lower() in tup[0].lower()
-            ]
-            if matching_tuples:
-                misc_airports[key] = matching_tuples
-                        
-        self.selectable_departure_airports |= misc_airports
+            for key, tuple_list in self.airports.items():
+                matching_tuples = [
+                    tup for tup in tuple_list 
+                    if searched_text.lower() in tup[2].lower() 
+                    or searched_text.lower() in tup[3].lower()
+                    or searched_text.lower() in tup[0].lower()
+                ]
+                if matching_tuples:
+                    misc_airports[key] = matching_tuples
+                            
+            self.selectable_departure_airports |= misc_airports
 
     # update selectable countries and airports based on requested text
     def filter_selectable_departures(self, text):
@@ -166,7 +172,7 @@ class AppState:
         self.routes = json.load(json_routes)
 
     def filter_selectable_arrivals(self, text):
-        if self.selected_departure_airports == []:
+        if not self.selected_departure_airports:
             return []
 
         # iata_list contiene tutti gli aeroporti di arrivo possibili data una partenza
