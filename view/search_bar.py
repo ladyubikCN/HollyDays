@@ -34,15 +34,6 @@ def show_error(page, text):
     page.update()
 
 def search_flights(e, state, page):
-    global _search_timer
-
-    if _search_timer is not None:
-        _search_timer.cancel()
-
-        _search_timer = Timer(0.5, do_actual_search, args=[state, page])
-        _search_timer.start()
-
-def do_actual_search(state, page):
     show_loading()
 
     if cookies.get("credits_key"):
@@ -55,7 +46,10 @@ def do_actual_search(state, page):
     if not state.credits_key in state.valid_keys:
         show_error(page, "Chiave non valida")
         return
-    
+
+    page.run_thread(do_search_work, e, state, page)
+
+def do_search_work(e, state, page):
     f_cache = open("files/cache.csv", "r", encoding="utf-8")
     reader = csv.reader(f_cache)
     totale = sum(int(riga[2]) for riga in reader if riga[0] == state.credits_key)

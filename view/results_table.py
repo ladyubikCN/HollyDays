@@ -1,9 +1,7 @@
 import flet
-from datetime import datetime, timedelta
-from model.cache import Cache
+from datetime import datetime
 import requests
 import base64
-import sqlite3
 from model.database import Database
 
 _table_rows = None
@@ -17,6 +15,7 @@ def add_results_table(page):
     _table_rows = flet.ListView(
         expand=True,
         spacing=0,
+        margin=flet.Margin.only(right=80)
     )
 
     _loading_container = flet.Container(expand=True, 
@@ -64,10 +63,7 @@ def show_loading():
     _loading_container.update()
 
 def refresh_results(flights, page):
-    page.run_thread(lambda: update_table(flights, page))
-
-def update_table(flights, page):
-
+    
     for outbound_flight, inbound_flight in flights:
         nights = (datetime.strptime(inbound_flight['departure_at'], "%Y-%m-%d %H:%M").date()
     - datetime.strptime(outbound_flight['departure_at'], "%Y-%m-%d %H:%M").date()).days
