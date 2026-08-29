@@ -9,9 +9,10 @@ from .results_table import show_loading
 from model.cache import Cache
 import csv
 from diskcache import Cache as DiskCache
-from threading import Timer
-
-_search_timer = None
+from .selection_section import refresh_selected_departures
+from .departure_flights import sync_departure_checks
+from .selection_section import refresh_selected_arrivals
+from .arrival_flights import sync_arrival_checks
 
 cookies = DiskCache("./user_cookies")
 
@@ -146,6 +147,11 @@ def add_search_bar(page, state):
                                     ]))
     search_bar.controls.append(filters_row)
     search_bar_container.content = search_bar
+
+    state.subscribe_departure(lambda: refresh_selected_departures(state, page))
+    state.subscribe_departure(lambda: sync_departure_checks(state))
+    state.subscribe_arrival(lambda: refresh_selected_arrivals(state, page))
+    state.subscribe_arrival(lambda: sync_arrival_checks(state))
     
     return search_bar_container
 

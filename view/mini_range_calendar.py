@@ -93,7 +93,12 @@ class MiniRangeCalendar(flet.Container):
                     elif self.start_date and self.end_date and self.start_date < data_corrente < self.end_date:
                         bg = flet.Colors.PRIMARY_CONTAINER
                         text_color = flet.Colors.ON_PRIMARY_CONTAINER
-                    
+                    else:
+                        is_contained = any(start <= data_corrente <= end for start, end in self.state.selected_dates)
+                        if is_contained:
+                            bg = flet.Colors.PRIMARY_CONTAINER
+                            text_color = flet.Colors.ON_PRIMARY_CONTAINER
+
                     btn = flet.ElevatedButton(
                             str(giorno), # 💡 Il testo va passato come primo argomento posizionale!
                             style=flet.ButtonStyle(
@@ -110,8 +115,6 @@ class MiniRangeCalendar(flet.Container):
         self.update()
 
     def manage_day_clic(self, data):
-        print(f"Click su giorno: {data.strftime('%d/%m/%Y')}")
-        
         if not self.start_date or self.end_date or data < self.start_date:
             self.start_date = data
             self.end_date = None

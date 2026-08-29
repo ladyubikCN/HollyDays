@@ -64,9 +64,8 @@ def add_selection_section(page):
 
 def remove_departure(e, state):
     chip = e.control
-    if chip in _departures_column.controls:
-        _departures_column.controls.remove(chip)
     state.remove_departure_airport(chip.label.controls[0].value)
+
 
 def refresh_selected_departures(state, page):
     _departures_column.controls.clear()
@@ -103,9 +102,7 @@ def refresh_selected_departures(state, page):
 
 def remove_arrival(e, state):
     chip = e.control
-    if chip in _arrivals_column.controls:
-        _arrivals_column.controls.remove(chip)
-    state.remove_arrival_airport(chip.label.controls.value)
+    state.remove_arrival_airport(chip.label.controls[0].value)
 
 def refresh_selected_arrivals(state, page):
     _arrivals_column.controls.clear()

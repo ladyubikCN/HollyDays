@@ -1,6 +1,6 @@
 import flet
 from .anchor_menu import AnchorMenu
-from .selection_section import refresh_selected_departures
+#from .selection_section import refresh_selected_departures
 
 _departures_research_menu = None
 _airport_list = None
@@ -18,7 +18,10 @@ def show_airport_list(page, state):
     for airport in all_selected_airports:
         text = flet.Container(flet.Checkbox(airport[0] + " - " + airport[2] + " - " + airport[1] + " (" + airport[3] + ")", 
                                             visual_density=flet.VisualDensity.COMPACT, 
-                                            on_change=lambda e: add_departure(e, state, page)), 
+                                            on_change=lambda e: add_departure(e, state, page),
+                                            label_style=flet.TextStyle(color=page.theme.color_scheme.primary),
+                                            check_color=page.theme.color_scheme.secondary,
+                                            border_side=flet.BorderSide(width=2, color=flet.Colors.OUTLINE),), 
                                             data=airport[3])
         _airport_list.controls.append(text)
         _airports_list_controls.append(text)
@@ -51,8 +54,15 @@ def add_departure(e, state, page):
         state.add_departure_airport(e.control.label)
     else:
         state.remove_departure_airport(e.control.label)
-    refresh_selected_departures(state, page)
+    #refresh_selected_departures(state, page)
     state.filter_selectable_arrivals("")
+
+def sync_departure_checks(state):
+    for container in _airports_list_controls:
+        checkbox = container.content
+        checkbox.value = container.data in state.selected_departure_airports.keys()
+
+    _airport_list.update()
 
 def refresh_selectable_departures(e, state, page):
     state.filter_selectable_departures(e.control.value)
@@ -62,12 +72,24 @@ def refresh_selectable_departures(e, state, page):
 def add_departure_flights_container(page, state):
     global _departures_research_menu
 
-    departures_container = flet.Container(padding=flet.Padding.only(right=2), bgcolor=flet.Colors.TRANSPARENT)
+    departures_container = flet.Container(padding=flet.Padding.only(right=2), 
+                                          bgcolor=flet.Colors.TRANSPARENT)
     departures_column = flet.Column(expand=True)
-    departures_column.controls.append(flet.Text("Partenze", color=page.theme.color_scheme.on_primary, size=18, weight=flet.FontWeight.BOLD))
-    departures_research = flet.TextField(hint_text="Paese, codice aeroporto o città", bgcolor=page.theme.color_scheme.surface_container, color=page.theme.color_scheme.on_surface, expand=True, on_focus=lambda e: _departures_research_menu.update(page), on_change=lambda e: refresh_selectable_departures(e, state, page))
+    departures_column.controls.append(flet.Text("Partenze", 
+                                                color=page.theme.color_scheme.on_primary, 
+                                                size=18, 
+                                                weight=flet.FontWeight.BOLD))
+    departures_research = flet.TextField(hint_text="Paese, codice aeroporto o città", 
+                                         bgcolor=page.theme.color_scheme.surface_container, 
+                                         color=page.theme.color_scheme.on_surface, 
+                                         expand=True, 
+                                         on_change=lambda e: refresh_selectable_departures(e, state, page))
     airport_list_container = show_airport_list(page, state)
-    _departures_research_menu = AnchorMenu(page, departures_research, airport_list_container, False, True)
+    _departures_research_menu = AnchorMenu(page, 
+                                           departures_research, 
+                                           airport_list_container, 
+                                           False, 
+                                           True)
     departures_column.controls.append(_departures_research_menu)
 
     departures_container.content = departures_column

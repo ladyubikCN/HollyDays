@@ -31,6 +31,9 @@ class AnchorMenu(flet.Container):
             page.overlay.remove(self.popup)
         if self.barrier in page.overlay:
             page.overlay.remove(self.barrier)
+        if type(self.content).__name__ == "TextField":
+            self.content.value = ""
+
         page.update()
 
     def update(self, page):

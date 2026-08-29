@@ -1,6 +1,5 @@
 import flet
 from .anchor_menu import AnchorMenu
-from .selection_section import refresh_selected_arrivals
 
 _arrivals_research_menu = None
 _airport_list = None
@@ -18,6 +17,9 @@ def show_airport_list(page, state):
         text = flet.Container(
                 flet.Checkbox(airport[0] + " - " + airport[2] + " - " + airport[1] + " (" + airport[3] + ")", 
                               on_change=lambda e:add_arrival(e, state, page),
+                              label_style=flet.TextStyle(color=page.theme.color_scheme.primary),
+                              check_color=page.theme.color_scheme.secondary, 
+                              border_side=flet.BorderSide(width=2, color=flet.Colors.OUTLINE),
                             ), 
                             data=airport[3],
                             visible=False)
@@ -51,8 +53,13 @@ def add_arrival(e, state, page):
         state.add_arrival_airport(e.control.label)
     else:
         state.remove_arrival_airport(e.control.label)
-        
-    refresh_selected_arrivals(state, page)
+
+def sync_arrival_checks(state):
+    for container in _airports_list_controls:
+        checkbox = container.content
+        checkbox.value = container.data in state.selected_arrival_airports.keys()
+
+    _airport_list.update()
 
 def refresh_selectable_arrivals(e, state, page):
     state.filter_selectable_arrivals(e.control.value)
@@ -61,10 +68,18 @@ def refresh_selectable_arrivals(e, state, page):
 def add_arrival_flights_container(page, state):
     global _arrivals_research_menu
 
-    arrivals_container = flet.Container(padding=flet.Padding.only(right=2), bgcolor=flet.Colors.TRANSPARENT)
+    arrivals_container = flet.Container(padding=flet.Padding.only(right=2), 
+                                        bgcolor=flet.Colors.TRANSPARENT)
     arrival_column = flet.Column(expand=True)
-    arrival_column.controls.append(flet.Text("Destinazioni", color=page.theme.color_scheme.on_primary, size=18, weight=flet.FontWeight.BOLD))
-    arrivals_research = flet.TextField(hint_text="Paese, codice aeroporto o città", bgcolor=page.theme.color_scheme.surface_container, color=page.theme.color_scheme.on_surface, expand=True, on_focus=lambda e: _arrivals_research_menu.update(page), on_change=lambda e: refresh_selectable_arrivals(e, state, page))
+    arrival_column.controls.append(flet.Text("Destinazioni", 
+                                             color=page.theme.color_scheme.on_primary, 
+                                             size=18, 
+                                             weight=flet.FontWeight.BOLD))
+    arrivals_research = flet.TextField(hint_text="Paese, codice aeroporto o città", 
+                                       bgcolor=page.theme.color_scheme.surface_container, 
+                                       color=page.theme.color_scheme.on_surface, 
+                                       expand=True, 
+                                       on_change=lambda e: refresh_selectable_arrivals(e, state, page))
     airport_list_container = show_airport_list(page, state)
     _arrivals_research_menu = AnchorMenu(page, arrivals_research, airport_list_container, False, True)
     arrival_column.controls.append(arrivals_research)

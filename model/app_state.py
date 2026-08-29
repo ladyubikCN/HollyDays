@@ -33,6 +33,8 @@ class AppState:
     language = "Italiano"
     credits_key = ""
     valid_keys = []
+    _departure_listeners = []
+    _arrival_listeners = []
     
     def __new__(cls):
             if cls._instance is None:
@@ -40,8 +42,9 @@ class AppState:
                 cls._instance.airports = {}
                 cls._instance.read_valid_keys() 
                 cls._instance.read_countries()
-                cls._instance.read_airports()
                 cls._instance.read_all_routes()
+                cls._instance.read_airports()
+                
             return cls._instance
 
     # get the couple country code and name given the country code only 
@@ -83,7 +86,7 @@ class AppState:
             city = r_airport[10].strip()
             scheduled_service = r_airport[11].strip()
             iata = r_airport[13].strip()
-            if iata != '' and scheduled_service=='yes' and airport_type in ['medium_airport', 'large_airport']:
+            if iata != '' and scheduled_service=='yes' and airport_type in ['medium_airport', 'large_airport'] and iata in self.routes:
                 airport = Airport(name, country, city, iata)
                 country_key = (country, self.countries[country])
                 if not country_key in self.airports:
@@ -146,11 +149,13 @@ class AppState:
             city = airport.split(" - ")[1].strip()
             country = airport.split(" - ")[2][:2]
             self.selected_departure_airports[iata] = (city, country, name)
+            self._notify_departure()
 
     def remove_departure_airport(self, airport):
         iata = airport[-4:-1]
         if iata in self.selected_departure_airports.keys():
             self.selected_departure_airports.pop(iata)
+            self._notify_departure()
 
     def add_arrival_airport(self, airport):
         iata = airport[-4:-1]
@@ -160,11 +165,13 @@ class AppState:
             city = airport.split(" - ")[1].strip()
             country = airport.split(" - ")[2][:2]
             self.selected_arrival_airports[iata] = (city, country, name)
+            self._notify_arrival()
 
     def remove_arrival_airport(self, airport):
         iata = airport[-4:-1]
         if iata in self.selected_arrival_airports.keys():
             self.selected_arrival_airports.pop(iata)
+            self._notify_arrival()
 
     def read_all_routes(self):
         # da aggiornare su https://github.com/Jonty/airline-route-data/blob/main/airline_routes.json
@@ -347,6 +354,20 @@ class AppState:
                 for n in range(self.selected_nights_min, self.selected_nights_max + 1):
                     if selected_date[0] + timedelta(days=n+k) <= selected_date[1]:
                         self.valid_date_couples.append((selected_date[0] + timedelta(days=k), selected_date[0] + timedelta(days=n+k)))
+
+    def subscribe_departure(self, callback):
+        self._departure_listeners.append(callback)
+
+    def _notify_departure(self):
+        for callback in self._departure_listeners:
+            callback()
+
+    def subscribe_arrival(self, callback):
+            self._arrival_listeners.append(callback)
+    
+    def _notify_arrival(self):
+        for callback in self._arrival_listeners:
+            callback()
 
 
     
