@@ -79,15 +79,18 @@ def refresh_results(flights, page):
                                         flet.Text(outbound_flight['origin'] + " - " + outbound_flight['destination'], 
                                                   size=18, 
                                                   text_align=flet.TextAlign.CENTER,
-                                                  weight=flet.FontWeight.BOLD, 
+                                                  weight=flet.FontWeight.BOLD,
+                                                  color=page.theme.color_scheme.primary 
                                                   ),
                                         flet.Text(outbound_flight['origin_name'] + " - " + outbound_flight['destination_name'], 
                                                   size=12, 
                                                   text_align=flet.TextAlign.CENTER,
+                                                  color=page.theme.color_scheme.primary 
                                                   ),
                                         flet.Text(times, 
                                                   size=14, 
                                                   text_align=flet.TextAlign.CENTER,
+                                                  color=page.theme.color_scheme.primary 
                                                   )],
                                         spacing=2,
                                         alignment=flet.MainAxisAlignment.CENTER,
@@ -108,15 +111,18 @@ def refresh_results(flights, page):
                                                 flet.Text(inbound_flight['origin'] + " - " + inbound_flight['destination'], 
                                                             size=18, 
                                                             text_align=flet.TextAlign.CENTER,
-                                                            weight=flet.FontWeight.BOLD, 
+                                                            weight=flet.FontWeight.BOLD,
+                                                            color=page.theme.color_scheme.primary  
                                                             ),
                                                 flet.Text(inbound_flight['origin_name'] + " - " + inbound_flight['destination_name'], 
                                                             size=12, 
                                                             text_align=flet.TextAlign.CENTER,
+                                                            color=page.theme.color_scheme.primary 
                                                             ),
                                                 flet.Text(times, 
                                                             size=14, 
                                                             text_align=flet.TextAlign.CENTER,
+                                                            color=page.theme.color_scheme.primary 
                                                             )],
                                                 spacing=2,
                                                 alignment=flet.MainAxisAlignment.CENTER,
@@ -131,7 +137,7 @@ def refresh_results(flights, page):
             },
             content=flet.Row(controls=[outbound_container, 
                                        inbound_container,
-                                       flet.Text(str(nights) + " notti", expand=1, text_align="center"),
+                                       flet.Text(str(nights) + " notti", expand=1, text_align="center", color=page.theme.color_scheme.primary),
                                        flet.Text(str(outbound_flight['price'] + inbound_flight['price']) + " €", weight=flet.FontWeight.BOLD, color=flet.Colors.GREEN_700, expand=1, text_align="center")
                                        ]
                             ),

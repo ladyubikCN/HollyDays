@@ -59,7 +59,7 @@ class AppState:
 
     # read all the countries
     def read_countries(self):
-        f_countries = open("files/countries.csv", "r", encoding="utf-8-sig")
+        f_countries = open("files/countries_ita.csv", "r", encoding="utf-8-sig")
         reader = csv.reader(f_countries, delimiter=',', quotechar='"', skipinitialspace=True, lineterminator='\n')
         next(reader)
         for r_country in reader:
