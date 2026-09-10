@@ -146,6 +146,11 @@ def add_search_bar(page, state):
                                                              ])
                                     ]))
     search_bar.controls.append(filters_row)
+    search_bar.controls.append(flet.Text("Scegli e combina tutti gli aeroporti e tutti gli intervalli di date che vuoi!", 
+                                         style=flet.TextStyle(color=page.theme.color_scheme.on_primary,
+                                                              size=16)
+                                        )
+                               )
     search_bar_container.content = search_bar
 
     state.subscribe_departure(lambda: refresh_selected_departures(state, page))
