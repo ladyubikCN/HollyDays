@@ -3,7 +3,7 @@ import calendar
 from datetime import datetime
 
 class MiniRangeCalendar(flet.Container):
-    def __init__(self, state, on_range_selected):
+    def __init__(self, state, page, on_range_selected):
         super().__init__()
         self.state = state
         self.on_range_selected = on_range_selected # Funzione da chiamare quando il range è completo
@@ -22,8 +22,12 @@ class MiniRangeCalendar(flet.Container):
         self.padding = 10
         self.bgcolor = flet.Colors.SURFACE_CONTAINER_HIGHEST
         self.border_radius = 12
-        self.margin = flet.Margin(950, 210)
-        
+
+        if page.width > 600:
+            self.margin = flet.Margin(950, 210)
+        else:
+            self.margin = flet.Margin(20, 230)
+            
         # Griglia dei giorni (7 colonne per i giorni della settimana)
         self.giorni_grid = flet.GridView(
             runs_count=7,

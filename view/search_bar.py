@@ -68,10 +68,16 @@ def do_search_work(e, state, page):
 def add_search_bar(page, state):
     search_bar_container = flet.Container()
     search_bar_container.bgcolor = page.theme.color_scheme.primary
-    search_bar_container.padding = flet.Padding.only(left=80, top=30, right=80, bottom=30)
-    
+    if page.width > 600:
+        search_bar_container.padding = flet.Padding.only(left=80, top=30, right=80, bottom=30)
+    else:
+        search_bar_container.padding = flet.Padding.only(left=20, top=10, right=20, bottom=10)
     search_bar = flet.Column(expand=True, spacing=20)
-    filters_row = flet.Row(expand=True, spacing=0)
+
+    if page.width < 600: 
+        filters = flet.Column(expand=True, spacing=0)
+    else:
+        filters = flet.Row(expand=True, spacing=0)
     
     departure_flights_container = add_departure_flights_container(page, state)
     arrival_flights_container = add_arrival_flights_container(page, state)
@@ -79,42 +85,68 @@ def add_search_bar(page, state):
     nights_container = add_nights_container(page, state)
     passengers_container = add_passengers_container(page, state)
 
-    filters_row.controls.append(departure_flights_container)    
-    filters_row.controls.append(arrival_flights_container)    
-    filters_row.controls.append(dates_container)
-    filters_row.controls.append(nights_container)
-    filters_row.controls.append(passengers_container)
-    filters_row.controls.append(flet.Container(
-                                    flet.Row(
-                                        [flet.ElevatedButton(
-                                            "Cerca", 
+    filters.controls.append(departure_flights_container)    
+    filters.controls.append(arrival_flights_container)    
+    filters.controls.append(dates_container)
+
+    if page.width > 600:
+        filters.controls.append(nights_container)
+        filters.controls.append(passengers_container)
+    else:
+        filters.controls.append(flet.Row([nights_container, passengers_container],
+                                         spacing=0,
+                                         expand=True))
+
+    search_button = flet.ElevatedButton("Cerca", 
                                             bgcolor=page.theme.color_scheme.secondary, 
                                             color=page.theme.color_scheme.on_surface, 
                                             style=flet.ButtonStyle(shape=flet.RoundedRectangleBorder(radius=8), 
                                                                 text_style=flet.TextStyle(weight=flet.FontWeight.BOLD, 
                                                                                         size=18),
                                                                     padding=flet.Padding.symmetric(horizontal=20)), 
-                                            height=54,
-                                            on_click=lambda e:search_flights(e, state, page)
-                                        )]
-                                    ), 
-                                    expand=1, 
-                                    padding=flet.Padding(top=27, left=-10),
-                                    bgcolor=flet.Colors.TRANSPARENT
-                                ))
+                                            on_click=lambda e:search_flights(e, state, page))
+
     
+    if page.width > 600:
+        search_button.height = 54
+        padding_top = 27
+        padding_left = -10
+    else:
+        search_button.height = 40
+        search_button.width = float("inf")
+        search_button.expand = True
+        padding_left=0
+        padding_top = 5
+
+    search_button_container = flet.Container(content=search_button,
+                            expand=1, 
+                            padding=flet.Padding(top=padding_top, left=padding_left),
+                            bgcolor=flet.Colors.TRANSPARENT
+                        ) 
+
+    filters.controls.append(search_button_container)
+
+    if page.width > 600:
+        banner_font_size = 46
+        icon_size = 36
+    else:
+        banner_font_size = 32
+        icon_size = 24
+
     search_bar.controls.append(flet.Row(
-                                [flet.Icon(flet.Icons.FLIGHT_TAKEOFF, color=page.theme.color_scheme.secondary, size=46), 
+                                [flet.Icon(flet.Icons.FLIGHT_TAKEOFF, 
+                                           color=page.theme.color_scheme.secondary, 
+                                           size=46), 
                                  flet.Column(
                                     [
                                         flet.Text("HollyDay...", 
                                                 style=flet.TextStyle(font_family="Fredoka", 
-                                                                     size=46, 
+                                                                     size=banner_font_size, 
                                                                      weight=flet.FontWeight.BOLD, 
                                                                      color=page.theme.color_scheme.on_primary)), 
                                         flet.Text("Free Your Holiday", 
                                                  style=flet.TextStyle(font_family="Fredoka", 
-                                                                      size=23, 
+                                                                      size=int(banner_font_size / 2), 
                                                                       weight=flet.FontWeight.NORMAL, 
                                                                       color=page.theme.color_scheme.on_primary))
                                         ],
@@ -122,7 +154,7 @@ def add_search_bar(page, state):
                                         flet.Container(expand=True),
                                         flet.PopupMenuButton(icon=flet.Icons.LANGUAGE, 
                                                              icon_color=page.theme.color_scheme.on_primary, 
-                                                             icon_size=36, 
+                                                             icon_size=icon_size, 
                                                              tooltip="Lingua",
                                                              items=[
                                                                  flet.PopupMenuItem(
@@ -132,7 +164,7 @@ def add_search_bar(page, state):
                                                              ]),
                                         flet.PopupMenuButton(icon=flet.Icons.ACCOUNT_CIRCLE, 
                                                              icon_color=page.theme.color_scheme.on_primary, 
-                                                             icon_size=36, 
+                                                             icon_size=icon_size, 
                                                              tooltip="Account",
                                                              items=[
                                                                  flet.PopupMenuItem(
@@ -145,12 +177,21 @@ def add_search_bar(page, state):
                                                                  )
                                                              ])
                                     ]))
-    search_bar.controls.append(filters_row)
-    search_bar.controls.append(flet.Text("Scegli e combina tutti gli aeroporti e tutti gli intervalli di date che vuoi!", 
+    search_bar.controls.append(filters)
+    if page.width > 600:
+        search_bar.controls.append(flet.Text("Scegli e combina tutti gli aeroporti e tutti gli intervalli di date che vuoi!", 
                                          style=flet.TextStyle(color=page.theme.color_scheme.on_primary,
                                                               size=16)
                                         )
                                )
+    else:
+        search_bar.controls.append(flet.Text("Scegli e combina tutti gli aeroporti e tutti gli intervalli di date che vuoi!", 
+                                                 style=flet.TextStyle(color=page.theme.color_scheme.on_primary,
+                                                                      size=13),
+                                                width=float("inf"),
+                                                text_align=flet.TextAlign.CENTER                                 
+                                            )
+                                    )
     search_bar_container.content = search_bar
 
     state.subscribe_departure(lambda: refresh_selected_departures(state, page))

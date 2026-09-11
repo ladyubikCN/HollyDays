@@ -16,9 +16,16 @@ def add_selection_section(page):
     global _nights_column
     global _passengers_column
 
-    selection_container = flet.Container(width=360)
+    if page.width > 600:
+        selection_container = flet.Container(width=360)
+    else:
+        selection_container = flet.Container(expand=True)
     selection_container.bgcolor = "#1A365D"
-    selection_container.padding = flet.Padding.only(left=80, top=40, bottom=0, right=20)
+    
+    if page.width > 600:
+        selection_container.padding = flet.Padding.only(left=80, top=40, bottom=0, right=20)
+    else:
+        selection_container.padding = flet.Padding.only(left=20, top=20, bottom=0, right=20)
 
     selection_items = flet.Column(expand=True, spacing = 20, scroll=flet.ScrollMode.AUTO)
 
@@ -32,12 +39,20 @@ def add_selection_section(page):
                                   size=12, 
                                   weight=flet.FontWeight.BOLD,
                                   text_align=flet.TextAlign.CENTER)
-    _departures_column = flet.Column()
-    _arrivals_column = flet.Column()
-    _dates_column = flet.Column()
-    _nights_column = flet.Column()
-    _passengers_column = flet.Column()
-
+    
+    if page.width > 600:
+        _departures_column = flet.Column()
+        _arrivals_column = flet.Column()
+        _dates_column = flet.Column()
+        _nights_column = flet.Column()
+        _passengers_column = flet.Column()
+    else:
+        _departures_column = flet.Row(scroll=flet.ScrollMode.AUTO)
+        _arrivals_column = flet.Row(scroll=flet.ScrollMode.AUTO)
+        _dates_column = flet.Row(scroll=flet.ScrollMode.AUTO)
+        _nights_column = flet.Row(scroll=flet.ScrollMode.AUTO)
+        _passengers_column = flet.Row(scroll=flet.ScrollMode.AUTO)
+        
     selection_items.controls.extend([flet.Container(content=flet.Column(
                                                         [_credits_text,
                                                          _credits_tooltip],
@@ -46,7 +61,8 @@ def add_selection_section(page):
                                                     bgcolor=page.theme.color_scheme.secondary, 
                                                     alignment=flet.Alignment.CENTER,
                                                     margin=flet.Margin.only(bottom=20),
-                                                    padding=10, border_radius=5),
+                                                    padding=10, 
+                                                    border_radius=5),
                                      flet.Text("Partenze Selezionate", color=page.theme.color_scheme.on_primary, size=15, weight=flet.FontWeight.BOLD), 
                                      _departures_column, 
                                      flet.Text("Destinazioni Selezionate", color=page.theme.color_scheme.on_primary, size=15, weight=flet.FontWeight.BOLD),
@@ -69,31 +85,46 @@ def remove_departure(e, state):
 
 def refresh_selected_departures(state, page):
     _departures_column.controls.clear()
+
+    if page.width > 600:
+        place_size = 16
+        name_size = 10
+        icon_size = 18
+        horizontal_padding =8
+        vertical_padding = 8
+    else:
+        place_size = 12
+        name_size = 16
+        icon_size = 14
+        horizontal_padding = 4
+        vertical_padding = 4
     
     for airport in state.selected_departure_airports:
         place_text = flet.Text(
                         state.selected_departure_airports[airport][0] + " - " + state.selected_departure_airports[airport][1] + " (" + airport + ")",
-                        size=16,
+                        size=place_size,
                         color=page.theme.color_scheme.on_surface,
                     ) 
 
         name_text = flet.Text(
                         state.selected_departure_airports[airport][2],
-                        size=10,
+                        size=name_size,
                         color=page.theme.color_scheme.on_surface,
                     )
 
-        both_texts = flet.Column([place_text, name_text], spacing=0, horizontal_alignment=flet.CrossAxisAlignment.CENTER)
+        both_texts = flet.Column([place_text, name_text], 
+                                 spacing=0, 
+                                 horizontal_alignment=flet.CrossAxisAlignment.CENTER)
         
         chip = flet.Chip(
             both_texts,
             bgcolor=page.theme.color_scheme.surface_container,
             delete_icon=flet.Icon(
                 flet.Icons.CLOSE,
-                size=18,
+                size=icon_size,
             ),
             delete_icon_color=page.theme.color_scheme.on_surface,
-            padding=flet.Padding.symmetric(horizontal=8, vertical=6),
+            padding=flet.Padding.symmetric(horizontal=horizontal_padding, vertical=vertical_padding),
             on_delete=lambda e: remove_departure(e, state),
             expand=True
         )

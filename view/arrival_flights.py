@@ -26,11 +26,18 @@ def show_airport_list(page, state):
         _airport_list.controls.append(text)
         _airports_list_controls.append(text)
 
-    airport_list_container = flet.Container(_airport_list, 
+    if page.width > 600:
+        airport_list_container = flet.Container(_airport_list, 
                                             bgcolor=page.theme.color_scheme.on_primary, 
                                             border_radius=10, 
                                             padding=flet.Padding.all(10),
                                             margin=flet.Margin(740, 210))
+    else:
+        airport_list_container = flet.Container(_airport_list, 
+                                                    bgcolor=page.theme.color_scheme.on_primary, 
+                                                    border_radius=10, 
+                                                    padding=flet.Padding.all(10),
+                                                    margin=flet.Margin(20, 180))
 
     return airport_list_container     
 
@@ -71,19 +78,28 @@ def add_arrival_flights_container(page, state):
     arrivals_container = flet.Container(padding=flet.Padding.only(right=2), 
                                         bgcolor=flet.Colors.TRANSPARENT)
     arrival_column = flet.Column(expand=True)
-    arrival_column.controls.append(flet.Text("Destinazioni", 
-                                             color=page.theme.color_scheme.on_primary, 
-                                             size=18, 
-                                             weight=flet.FontWeight.BOLD))
+    if page.width > 600:
+        arrival_column.controls.append(flet.Text("Destinazioni", 
+                                                color=page.theme.color_scheme.on_primary, 
+                                                size=18, 
+                                                weight=flet.FontWeight.BOLD))
     arrivals_research = flet.TextField(hint_text="Paese, codice aeroporto o città", 
                                        bgcolor=page.theme.color_scheme.surface_container, 
                                        color=page.theme.color_scheme.on_surface, 
                                        expand=True, 
                                        on_change=lambda e: refresh_selectable_arrivals(e, state, page))
+
+    if page.width <= 600:
+        arrivals_research.dense = True
+
     airport_list_container = show_airport_list(page, state)
     _arrivals_research_menu = AnchorMenu(page, arrivals_research, airport_list_container, False, True)
     arrival_column.controls.append(arrivals_research)
     arrivals_container.content = arrival_column
-    arrivals_container.expand = 4
+
+    if page.width > 600:
+        arrivals_container.expand = 4
+    else:
+        arrivals_container.expand = True
     
     return arrivals_container
