@@ -9,7 +9,11 @@ def show_airport_list(page, state):
 
     global _airport_list
 
-    _airport_list = flet.ListView(width=500, height=400)
+    if page.width > 600:
+        _airport_list = flet.ListView(width=500, height=400)
+    else:
+        _airport_list = flet.ListView(width=(page.width - 60), height=200)
+        
     all_selected_airports = [tup for tuple_list in state.airports.values() for tup in tuple_list]
     all_selected_airports = [
                 v for v in sorted(all_selected_airports, key=lambda item: item[2])
@@ -33,10 +37,10 @@ def show_airport_list(page, state):
                                             margin=flet.Margin(370, 210))
     else:
         airport_list_container = flet.Container(_airport_list, 
-                                                    bgcolor=page.theme.color_scheme.on_primary, 
-                                                    border_radius=10, 
-                                                    padding=flet.Padding.all(10),
-                                                    margin=flet.Margin(20, 130))
+                                                bgcolor=page.theme.color_scheme.on_primary, 
+                                                border_radius=10, 
+                                                padding=flet.Padding.all(10),
+                                                margin=flet.Margin(20, 130))
 
     return airport_list_container    
 
