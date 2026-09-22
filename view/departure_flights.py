@@ -10,9 +10,9 @@ def show_airport_list(page, state):
     global _airport_list
 
     if page.width > 600:
-        _airport_list = flet.ListView(width=500, height=400)
+        _airport_list = flet.ListView(width=500, expand=True)
     else:
-        _airport_list = flet.ListView(width=(page.width - 60), height=200)
+        _airport_list = flet.ListView(width=(page.width - 60), expand=True)
         
     all_selected_airports = [tup for tuple_list in state.airports.values() for tup in tuple_list]
     all_selected_airports = [
@@ -30,17 +30,25 @@ def show_airport_list(page, state):
         _airports_list_controls.append(text)
 
     if page.width > 600:
-        airport_list_container = flet.Container(_airport_list, 
+        airport_list_container = flet.Container(flet.Column([_airport_list,
+                                                          flet.ElevatedButton("CHIUDI", width=float("inf"))], spacing=0), 
                                             bgcolor=page.theme.color_scheme.on_primary, 
                                             border_radius=10, 
                                             padding=flet.Padding.all(10),
                                             margin=flet.Margin(370, 210))
+
     else:
-        airport_list_container = flet.Container(_airport_list, 
+        airport_list_container = flet.Container(flet.Column([_airport_list,
+                                                          flet.ElevatedButton("CHIUDI", width=float("inf"))], spacing=0), 
                                                 bgcolor=page.theme.color_scheme.on_primary, 
                                                 border_radius=10, 
                                                 padding=flet.Padding.all(10),
                                                 margin=flet.Margin(20, 130))
+
+    if len(_airport_list.controls) < 10:
+        airport_list_container.height = (len(_airport_list.controls) + 1) * 40
+    else:
+        airport_list_container.height = 400
 
     return airport_list_container    
 
@@ -118,7 +126,8 @@ def add_departure_flights_container(page, state):
                                            departures_research, 
                                            airport_list_container, 
                                            False, 
-                                           True)
+                                           True, 
+                                           airport_list_container.content.controls[1])
     departures_column.controls.append(_departures_research_menu)
 
     departures_container.content = departures_column

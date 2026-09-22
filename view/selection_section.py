@@ -7,6 +7,7 @@ _arrivals_column = None
 _dates_column = None
 _nights_column = None
 _passengers_column = None
+selection_container = None
 
 def add_selection_section(page):
     global _credits_text
@@ -15,6 +16,7 @@ def add_selection_section(page):
     global _dates_column
     global _nights_column
     global _passengers_column
+    global selection_container
 
     if page.width > 600:
         selection_container = flet.Container(width=360)
@@ -203,31 +205,47 @@ def refresh_selected_dates(start_date, end_date, state, page):
     _credits_text.value = "Crediti richiesti: " + str(len(state.valid_date_couples))
 
 def refresh_selected_nights(state, page):
-    _nights_column.controls.clear()
-    text = flet.Text("Da " + str(int(state.selected_nights_min)) + " a " + str(int(state.selected_nights_max)) + " notti",
-                     size=16,
-                     color=page.theme.color_scheme.on_surface,
-                    )
-    chip = flet.Container(
-                        content=text,
-                        bgcolor=page.theme.color_scheme.surface_container,
-                        padding=flet.Padding.symmetric(horizontal=8, vertical=2),
-                        border_radius=8, 
-                    )
-    _nights_column.controls.append(chip)
 
-    _credits_text.value = "Crediti richiesti: " + str(len(state.valid_date_couples))
+    if page.width >= 600:
+        _nights_column.controls.clear()
 
-def refresh_selected_passengers(state, page):
-    _passengers_column.controls.clear()
-    text = flet.Text(str(int(state.selected_passengers)) + " passeggeri",
-                     size=16,
-                     color=page.theme.color_scheme.on_surface,
-                    )
-    chip = flet.Container(
+        text = flet.Text("Da " + str(int(state.selected_nights_min)) + " a " + str(int(state.selected_nights_max)) + " notti",
+                        size=16,
+                        color=page.theme.color_scheme.on_surface,
+                        )
+        
+        chip = flet.Container(
                             content=text,
                             bgcolor=page.theme.color_scheme.surface_container,
                             padding=flet.Padding.symmetric(horizontal=8, vertical=2),
                             border_radius=8, 
                         )
-    _passengers_column.controls.append(chip)        
+        _nights_column.controls.append(chip)
+
+    if _credits_text:
+        _credits_text.value = "Crediti richiesti: " + str(len(state.valid_date_couples))
+
+def refresh_selected_passengers(state, page):
+    if page.width > 600:
+        _passengers_column.controls.clear()
+        text = flet.Text(str(int(state.selected_passengers)) + " passeggeri",
+                        size=16,
+                        color=page.theme.color_scheme.on_surface,
+                        )
+        chip = flet.Container(
+                                content=text,
+                                bgcolor=page.theme.color_scheme.surface_container,
+                                padding=flet.Padding.symmetric(horizontal=8, vertical=2),
+                                border_radius=8, 
+                            )
+        _passengers_column.controls.append(chip)  
+
+def hide_chips():
+    if selection_container:
+        selection_container.visible = False
+        selection_container.update()
+
+def show_chips():
+    if selection_container:
+        selection_container.visible = True
+        selection_container.update()      

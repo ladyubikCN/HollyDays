@@ -5,6 +5,8 @@ from .results_table import add_results_table
 
 from model.app_state import AppState
 
+_selection_section = None
+
 def show_full_page(page: flet.Page):
     page.title = "Free Your Holiday"
     page.padding = 0
@@ -46,19 +48,21 @@ def show_full_page(page: flet.Page):
     )
 
     def update_layout():
+        global _selection_section
+
         is_mobile = page.width < 600
         page.controls.clear()
         search_bar = add_search_bar(page, state)
-        selection_section = add_selection_section(page)
+        _selection_section = add_selection_section(page)
         results_table = add_results_table(page) 
 
         if not is_mobile:
-            selection_and_results = flet.Row(controls=[selection_section, results_table], 
+            selection_and_results = flet.Row(controls=[_selection_section, results_table], 
                                              expand=True, 
                                              spacing=0, 
                                              vertical_alignment=flet.CrossAxisAlignment.STRETCH)
         else:
-            selection_and_results = flet.Column(controls=[selection_section, results_table], 
+            selection_and_results = flet.Column(controls=[_selection_section, results_table], 
                                                 expand=True, 
                                                 spacing=0,
                                                 scroll=flet.ScrollMode.ALWAYS)

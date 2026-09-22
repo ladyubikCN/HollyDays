@@ -18,7 +18,7 @@ class MiniRangeCalendar(flet.Container):
         
         # Configurazione grafica del container esterno
         self.width = 320
-        self.height = 340
+        self.height = 370
         self.padding = 10
         self.bgcolor = flet.Colors.SURFACE_CONTAINER_HIGHEST
         self.border_radius = 12
@@ -52,7 +52,8 @@ class MiniRangeCalendar(flet.Container):
                 for g in ["L", "M", "M", "G", "V", "S", "D"]
             ], alignment=flet.MainAxisAlignment.SPACE_AROUND, height=30),
             
-            flet.Container(content=self.giorni_grid, height=220, width=300)
+            flet.Container(content=self.giorni_grid, height=220, width=300),
+            flet.ElevatedButton("CHIUDI", width=float("inf"))
         ])
         
     def did_mount(self):

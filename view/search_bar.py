@@ -13,11 +13,12 @@ from .selection_section import refresh_selected_departures
 from .departure_flights import sync_departure_checks
 from .selection_section import refresh_selected_arrivals
 from .arrival_flights import sync_arrival_checks
+from .selection_section import show_chips
+from .selection_section import hide_chips
 
 _filters = None
-_search_button = None
 _hint = None
-_search_bar = None
+_filters_button = None
 
 cookies = DiskCache("./user_cookies")
 
@@ -41,7 +42,7 @@ def show_error(page, text):
 
 def search_flights(e, state, page):
     if page.width <= 600:
-        reduce_search_bar()
+        reduce_search_bar(page, state)
 
     show_loading()
 
@@ -81,7 +82,7 @@ def add_search_bar(page, state):
     else:
         search_bar_container.padding = flet.Padding.only(left=20, top=10, right=20, bottom=10)
 
-    expand_search_bar(page, state)
+    show_search_bar(page, state)
     
     search_bar_container.content = _search_bar
 
@@ -99,9 +100,9 @@ def change_key(e, state):
     cookies.set("credits_key", e.control.value, expire=86400 * 30)
     state.credits_key = e.control.value
 
-def expand_search_bar(page, state):
+def show_search_bar(page, state):
 
-    global _filters, _search_button, _hint, _search_bar
+    global _filters, _hint, _search_bar
 
     if page.width < 600: 
         _filters = flet.Column(expand=True, spacing=0)
@@ -126,7 +127,7 @@ def expand_search_bar(page, state):
                                             spacing=0,
                                             expand=True))
 
-    _search_button = flet.ElevatedButton("Cerca", 
+    search_button = flet.ElevatedButton("Cerca", 
                                             bgcolor=page.theme.color_scheme.secondary, 
                                             color=page.theme.color_scheme.on_surface, 
                                             style=flet.ButtonStyle(shape=flet.RoundedRectangleBorder(radius=8), 
@@ -137,17 +138,17 @@ def expand_search_bar(page, state):
 
     
     if page.width > 600:
-        _search_button.height = 54
+        search_button.height = 54
         padding_top = 27
         padding_left = -10
     else:
-        _search_button.height = 40
-        _search_button.width = float("inf")
-        _search_button.expand = True
+        search_button.height = 40
+        search_button.width = float("inf")
+        search_button.expand = True
         padding_left=0
         padding_top = 5
 
-    search_button_container = flet.Container(content=_search_button,
+    search_button_container = flet.Container(content=search_button,
                             expand=1, 
                             padding=flet.Padding(top=padding_top, left=padding_left),
                             bgcolor=flet.Colors.TRANSPARENT
@@ -222,12 +223,27 @@ def expand_search_bar(page, state):
                                                 text_align=flet.TextAlign.CENTER                                 
                                             )
 
-    _search_bar.controls.append(_hint)
-                                    
+        show_chips()
 
-def reduce_search_bar():
+    _search_bar.controls.append(_hint)
+
+                                 
+
+def reduce_search_bar(page, state):
+    global _filters_button
     _search_bar.controls.remove(_filters)
-    _search_bar.controls.remove(_search_button)
     _search_bar.controls.remove(_hint)
+    hide_chips()
+    _filters_button = flet.ElevatedButton("FILTRI", 
+                                on_click=lambda e: expand_search_bar())
+    _search_bar.controls.append(_filters_button)
+    _search_bar.update()
+
+def expand_search_bar():
+    _search_bar.controls.append(_filters)
+    _search_bar.controls.append(_hint)
+    show_chips()
+    _search_bar.controls.remove(_filters_button)
+    _search_bar.update()
 
 

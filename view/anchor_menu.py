@@ -4,7 +4,7 @@ class AnchorMenu(flet.Container):
     barrier = None
     popup = None
 
-    def __init__(self, page, main_control, submenu_control, open_on_focus, open_on_click):
+    def __init__(self, page, main_control, submenu_control, open_on_focus, open_on_click, close_button=None):
         super().__init__()
 
         if open_on_focus:
@@ -12,6 +12,9 @@ class AnchorMenu(flet.Container):
 
         if open_on_click:
             main_control.on_click = lambda e: self.open_overlay(page)
+
+        if close_button:
+            close_button.on_click = lambda e: self.close_overlay(page)
 
         self.barrier = flet.Container(expand=True, bgcolor=flet.Colors.TRANSPARENT, on_click=lambda e:self.close_overlay(page))
         self.popup = submenu_control

@@ -48,7 +48,9 @@ def add_dates(page, state):
                                             color=page.theme.color_scheme.primary,
                                             )))
 
-    dates_research_menu = AnchorMenu(page, dates_button, dates_picker, False, True)
+                                
+    dates_research_menu = AnchorMenu(page, dates_button, dates_picker, False, True, 
+                                           dates_picker.content.controls[3])
 
     date_column.controls.append(dates_research_menu)
     

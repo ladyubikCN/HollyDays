@@ -12,11 +12,18 @@ _logo_cache = {}
 def add_results_table(page):
     global _table_rows, _results_container, _loading_container
 
-    _table_rows = flet.ListView(
-        expand=True,
-        spacing=0,
-        margin=flet.Margin.only(right=80)
-    )
+    if page.width >= 600:
+        _table_rows = flet.ListView(
+            expand=True,
+            spacing=0,
+            margin=flet.Margin.only(right=80)
+        )
+    else:
+        _table_rows = flet.ListView(
+                    expand=True,
+                    spacing=0,
+                    margin=flet.Margin.all(20)
+                )
 
     _loading_container = flet.Container(expand=True, 
                                         bgcolor=page.theme.color_scheme.primary,
@@ -130,17 +137,25 @@ def refresh_results(flights, page):
                                                 expand=True
                                             )]
                                         ), expand=3)
-
+        if page.width >= 600:
+            __content = flet.Row(controls=[outbound_container, 
+                                 inbound_container,
+                                 flet.Text(str(nights) + " notti", expand=1, text_align="center", color=page.theme.color_scheme.primary),
+                                 flet.Text(str(outbound_flight['price'] + inbound_flight['price']) + " €", weight=flet.FontWeight.BOLD, color=flet.Colors.GREEN_700, expand=1, text_align="center")
+                                 ]
+                                )
+        else:
+            __content = flet.Column(controls=[outbound_container, 
+                                             inbound_container,
+                                             flet.Text(str(nights) + " notti", text_align=flet.TextAlign.CENTER, color=page.theme.color_scheme.primary, width=float("inf")),
+                                             flet.Text(str(outbound_flight['price'] + inbound_flight['price']) + " €", weight=flet.FontWeight.BOLD, color=flet.Colors.GREEN_700, width=float("inf"), text_align=flet.TextAlign.CENTER)
+                                             ]
+                                            ) 
         row = flet.Container(
             data={
                 "price":outbound_flight['price'] + inbound_flight['price']
             },
-            content=flet.Row(controls=[outbound_container, 
-                                       inbound_container,
-                                       flet.Text(str(nights) + " notti", expand=1, text_align="center", color=page.theme.color_scheme.primary),
-                                       flet.Text(str(outbound_flight['price'] + inbound_flight['price']) + " €", weight=flet.FontWeight.BOLD, color=flet.Colors.GREEN_700, expand=1, text_align="center")
-                                       ]
-                            ),
+            content=__content,
             bgcolor=flet.Colors.WHITE,
             padding=20,
             margin=flet.Margin.only(bottom=12),
